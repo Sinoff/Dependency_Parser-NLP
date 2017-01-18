@@ -10,8 +10,6 @@ FEATURES module:
 extracts fetaures from words, parse corpus, save feature tables
 """
 
-
-
 num_feat_types = 13
 num_features = 0
 model = 'basic'
@@ -111,7 +109,9 @@ set_feat_ind = [set_f0, set_f1, set_f2, set_f3, set_f4, set_f5, set_f6, set_f7,
                 set_f8, set_f9, set_f10, set_f11, set_f12, set_f13]
 
 
+
 def set_features(parent_tup, child_tup):
+    global num_features    
     p, p_pos = parent_tup
     c, c_pos = child_tup
     
@@ -126,6 +126,10 @@ def set_features(parent_tup, child_tup):
         except KeyError:
             num_features += 1            
             set_feat_ind[ind](p, c, p_pos, c_pos, num_features)
+            edge_feats.append(num_features)
+
+    return edge_feats
+    
 
 def get_feature_list(sentence, p_ind, c_ind):
     p, p_pos = sentence.get_word_pos(p_ind)
