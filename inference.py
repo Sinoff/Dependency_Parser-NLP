@@ -3,7 +3,7 @@ from edmonds import mst
 import numpy as np
 
 
-def inference(sentence, weights) :
+def inference(sentence, weights):
     weights_graph = {}
     # find best tree
     for p, parent in enumerate(sentence.words):
