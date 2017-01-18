@@ -11,7 +11,7 @@ def inference(sentence, weights):
             if p != c:  # cannot have self edges
                 if c == 1 or (p == 1 and c == 2):  # first edge added from this node
                     weights_graph[p] = {}
-                weights_graph[p][c] = sum(get_feature_list(sentence, p, c))
+                weights_graph[p][c] = sum(weights[get_feature_list(sentence, p, c)])
     # call Edmonds - 0 is root
     mst(0, weights_graph)
     for p, parent in enumerate(weights_graph):
