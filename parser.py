@@ -21,5 +21,5 @@ def corpus_parser(filename):
                                                         sentence.get_word_pos(c))
         sentences.append(sentence)
         
-    return features.num_features
+    return features.num_features, sentences
     
