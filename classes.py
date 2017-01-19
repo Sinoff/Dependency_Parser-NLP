@@ -13,9 +13,11 @@ class Sentence(object):
         self.words = ['ROOT'] + list(properties[1])
         self.pos = ['ROOT'] + list(properties[3])
         self.edges = []
+        self.heads = ['_']*len(self.words)
         if '_' not in properties[6]:
             for c, p in enumerate(properties[6], 1):
                 self.add_edge(p, c)
+                self.heads[c] = [p]
     
         self.feat_inds = []
         
@@ -26,7 +28,10 @@ class Sentence(object):
     def add_edge(self, p_ind, c_ind):
         self.edges.append((p_ind, c_ind))
         
-    def print_sentence(self):
+    def __repr__(self):
         # implement sentence print        
-        
-        pass
+        emptys = ['_']*len(self.words)
+        data = zip(range(1, len(self.words + 1)), self.words, emptys, self.pos, 
+                   emptys, emptys, self.heads, emptys, emptys)
+        text = '\n'.join(['\t'.join(list(line)) for line in data])
+        return text
