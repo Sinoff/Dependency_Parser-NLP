@@ -16,6 +16,7 @@ def corpus_parser(filename):
     sentences = []
     for block in sen_blocks:
         sentence = Sentence(block)  
+        print sentence.edges        
         for p, c in sentence.edges:
             sentence.feat_inds += features.set_features(sentence.get_word_pos(p), 
                                                         sentence.get_word_pos(c))

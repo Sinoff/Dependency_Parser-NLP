@@ -33,6 +33,8 @@ get_feat_ind = [lambda p, c, p_pos, c_pos: (p, c),
                 lambda p, c, p_pos, c_pos: features[13][p_pos][c_pos]
                 ]
 
+feat_amounts = dict(zip(range(1,num_feat_types + 1), [0]*num_feat_types))
+
 def set_f0(p, c, p_pos, c_pos, n):
     pass
 
@@ -125,6 +127,7 @@ def set_features(parent_tup, child_tup):
             edge_feats.append(get_feat_ind(p, c, p_pos, c_pos))
         except KeyError:
             num_features += 1            
+            feat_amounts[ind] += 1
             set_feat_ind[ind](p, c, p_pos, c_pos, num_features)
             edge_feats.append(num_features)
 

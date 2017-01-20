@@ -9,8 +9,12 @@ class Sentence(object):
     def __init__(self, sen_block):
         # parse sentence block from input file into data structure
         lines = [line.split('\t') for line in sen_block.split('\n')]
-        properties = zip(lines)
-        self.words = ['ROOT'] + list(properties[1])
+        properties = zip(*lines)
+        try:        
+            self.words = ['ROOT'] + list(properties[1])
+        except IndexError:
+            print sen_block
+            return
         self.pos = ['ROOT'] + list(properties[3])
         self.edges = []
         self.heads = ['_']*len(self.words)
@@ -23,7 +27,7 @@ class Sentence(object):
         
         
     def get_word_pos(self, ind):
-        return self.words(ind), self.pos(ind)
+        return self.words[ind], self.pos[ind]
         
     def add_edge(self, p_ind, c_ind):
         self.edges.append((p_ind, c_ind))
@@ -35,3 +39,8 @@ class Sentence(object):
                    emptys, emptys, self.heads, emptys, emptys)
         text = '\n'.join(['\t'.join(list(line)) for line in data])
         return text
+        
+    def __str__(self):
+        # Easy debug representation of sentence
+        return ' '.join([word + '_' + pos for word, pos in 
+                         zip(self.words, self.pos)[1:]]) + '\n'
