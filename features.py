@@ -38,27 +38,34 @@ feat_amounts = dict(zip(range(1,num_feat_types + 1), [0]*num_feat_types))
 def set_f0(p, c, p_pos, c_pos, n):
     pass
 
+
 def set_f1(p, c, p_pos, c_pos, n): 
     if p not in features[1]:
         features[1][p] = {}
     features[1][p][p_pos] = n
-    
+
+
 def set_f2(p, c, p_pos, c_pos, n): 
     features[2][p] = n
-    
+
+
 def set_f3(p, c, p_pos, c_pos, n): 
     features[3][p_pos] = n
-    
+
+
 def set_f4(p, c, p_pos, c_pos, n): 
     if c not in features[4]:
         features[4][c] = {}
     features[4][c][c_pos] = n
-    
+
+
 def set_f5(p, c, p_pos, c_pos, n):
     features[5][c] = n
 
+
 def set_f6(p, c, p_pos, c_pos, n): 
     features[6][c_pos] = n
+
 
 def set_f7(p, c, p_pos, c_pos, n): 
     if p not in features[7]:
@@ -68,40 +75,46 @@ def set_f7(p, c, p_pos, c_pos, n):
     if p_pos not in features[7][p][c]:
         features[7][p][c][p_pos] = {}
     features[7][p][c][p_pos][c_pos] = n
-    
+
+
 def set_f8(p, c, p_pos, c_pos, n): 
     if c not in features[8]:
         features[8][c] = {}
     if p_pos not in features[8][c]:
         features[8][c][p_pos] = {}    
     features[8][c][p_pos][c_pos] = n
-    
+
+
 def set_f9(p, c, p_pos, c_pos, n): 
     if p not in features[9]:
         features[9][p] = {}
     if c not in features[9][p]:
         features[9][p][c] = {}
     features[9][p][c][c_pos] = n
-    
+
+
 def set_f10(p, c, p_pos, c_pos, n): 
     if p not in features[10]:
         features[10][p] = {}
     if p_pos not in features[10][p]:
         features[10][p][p_pos] = {}
     features[10][p][p_pos][c_pos] = n
-    
+
+
 def set_f11(p, c, p_pos, c_pos, n): 
     if p not in features[11]:
         features[11][p] = {}
     if c not in features[11][p]:
         features[11][p][c] = {}
     features[11][p][c][p_pos] = n
-    
+
+
 def set_f12(p, c, p_pos, c_pos, n): 
     if p not in features[12]:
         features[12][p] = {}
     features[12][p][c] = n
-    
+
+
 def set_f13(p, c, p_pos, c_pos, n): 
     if p_pos not in features[13]:
         features[13][p_pos] = {}

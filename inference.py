@@ -1,6 +1,5 @@
 from features import get_feature_list
 from edmonds import mst
-import numpy as np
 
 
 def inference(sentence, weights):

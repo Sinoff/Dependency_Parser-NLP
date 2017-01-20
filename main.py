@@ -7,46 +7,52 @@ import inference
 import numpy as np
 
 
-# todo: every print add also to log file?
+def main(input_args):
 
+    # initializations #
+    # create results directory
+    subdirectory = "results_" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    os.mkdir(subdirectory)
+    with open(os.path.join(subdirectory, "cmdline_input.txt"), 'w') as cmdline_file:
+        for arg in input_args:
+            if arg:  # save command line arguments (only if they exist)
+                cmdline_file.write(arg + " ")
 
-def main(args):
-
-    # model initializations #
-
-    if args.m_file: #advanced model
-        with open(args.test_file, 'r') as f:
+    if input_args.m_file:  # advanced model
+        with open(input_args.test_file, 'r') as f:
             model_features = [line.split() for line in f.readlines()]
 
         # todo: compile with Orr's code
 
-    else: # basic model
+    else:  # basic model
+        print("basic model selected")
         # todo: compile with Orr's coder
 
     # training (AKA learning) #
-    if args.l_file:
+    if input_args.learn:  # learn new weights and features
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase began: {}".format(parse_time_begin))
-        features_num, learning_sentences = corpus_parser(args.l_file)
+        features_num, learning_sentences = corpus_parser(input_args.l_file)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
-        # todo: save in log file how many features of each kind were created (also time prints?)
+        # todo: save in log file how many features of each kind were created
         # todo: add save parsed sentences option
 
         run_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase began: {}".format(run_time_begin))
-        weights = Learning.learning_algorithm(args.l_iterations, learning_sentences, features_num)
+        weights = Learning.learning_algorithm(input_args.l_iterations, learning_sentences, features_num)
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase ended. took {}".format(run_time_end - run_time_begin))
+        np.save(os.path.join(subdirectory, "weights"), weights)
 
-    # todo: decide what to do if we don't have a learning file input (must conclude with having a weights np array)
-
-    # inference #
-    if args.i_file:
+    else:  # loading previous learn inputs
+        weights = np.load(input_args.learn.weights)
+    # inference (AKA test) #
+    if input_args.i_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Inference parse phase began: {}".format(parse_time_begin))
-        _, inference_sentences = corpus_parser(args.i_file)
+        _, inference_sentences = corpus_parser(input_args.i_file)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Inference parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
@@ -57,24 +63,30 @@ def main(args):
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Inference phase ended. took {}".format(run_time_end - run_time_begin))
 
-        # todo: output the results of the inference.
+        # print the inference results
+        with open(os.path.join(subdirectory, "test.results"), 'w') as test_file:
+            for sentence in inference_sentences:
+                test_file.write(sentence + "\n")
 
-    # test #
-    if args.t_file:
+    # comp #
+    if input_args.c_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Test parse phase began: {}".format(parse_time_begin))
-        _, test_sentences = corpus_parser(args.t_file)
+        _, comp_sentences = corpus_parser(input_args.c_file)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Test parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
         run_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Test phase began: {}".format(run_time_begin))
-        for sentence in test_sentences:
+        for sentence in comp_sentences:
             inference.inference(sentence, weights)
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Test phase ended. took {}".format(run_time_end - run_time_begin))
 
-        # todo: output the results of the test.
+        # print the test results
+        with open(os.path.join(subdirectory, "comp.labeled"), 'w') as comp_file:
+            for sentence in comp_sentences:
+                comp_file.write(sentence + "\n")
 
     # todo: add confusion matrix function call?
 
@@ -92,7 +104,11 @@ if __name__ == '__main__':
                         help='name of model file: one line of integers separated by space')
 
     # learning
-    parser.add_argument('--l_file', type=str, default='', help='name of learning file')
+    parser.add_argument('--learn', type=bool, default=True, help='bool flag: learning (= True) or loading (= False)')
+    parser.add_argument('l_file', type=str, default='',
+                        help='name of learning file. If learn == True, it is the path to train.labeled,'
+                        'else - it is a **dir** path to where all loading files are')
+
     parser.add_argument('--l_iterations', type=int, choices=[20, 50, 80, 100], default=20,
                         help='number of learning iterations')
 
@@ -100,11 +116,7 @@ if __name__ == '__main__':
     parser.add_argument('--i_file', type=str, default='', help='name of inference file')
 
     # test
-    parser.add_argument('--t_file', type=str, default='', help='name of test file')
-
-    # parser.add_argument('--save', type=str, default='',
-    #                     help='Place a name after this to save Corpus and Feature '
-    #                          'table output files, with this name')
+    parser.add_argument('--c_file', type=str, default='', help='name of comp file')
 
     args = parser.parse_args()
 
@@ -117,10 +129,10 @@ if __name__ == '__main__':
         sys.exit('Learning file not found')
 
     if args.i_file and not os.path.exists(args.i_file):
-        sys.exit('Inference file not found')
+        sys.exit('Inference (AKA test) file not found')
 
-    if args.t_file and not os.path.exists(args.t_file):
-        sys.exit('Test file not found')
+    if args.c_file and not os.path.exists(args.t_file):
+        sys.exit('Competition file not found')
 
     # Run Program #
     main(args)
