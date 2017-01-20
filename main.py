@@ -7,7 +7,7 @@ import inference
 import numpy as np
 import features
 
- 
+
 def main(input_args):
 
     # initializations #
@@ -20,7 +20,8 @@ def main(input_args):
                 cmdline_file.write("{}={} ".format(arg, getattr(input_args, arg)))
 
     if input_args.m_file:  # advanced model
-        with open(input_args.test_file, 'r') as f:
+        print("advanced model selected")
+        with open(input_args.m_file, 'r') as f:
             model_features = [line.split() for line in f.readlines()]
 
         # todo: compile with Orr's code
@@ -38,10 +39,10 @@ def main(input_args):
         print ("Train parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
         #  save in log file how many features of each kind were created
-        feature_amounts = features.get_amounts()
-        with open(os.path.join(subdirectory, "featureNums.txt"), 'w') as featureAmountFile:
-            for amount in feature_amounts:
-                featureAmountFile.write(amount.key + ": " + amount.value + "\n")
+        with open(os.path.join(subdirectory, "feature_amounts.txt"), 'w') as featureAmountFile:
+            for feature, value in features.feat_amounts.items():
+                if value != 0:
+                    featureAmountFile.write("{} : {}\n".format(feature, value))
         # save features as pickle
         features.save_features(subdirectory)
 

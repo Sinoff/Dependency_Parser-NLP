@@ -20,7 +20,8 @@ def learning_algorithm(iteration_num, sentences, feature_num):
     for iteration in range(iteration_num):
         feature_graph = {}
         weights_graph = {}
-        for sentence in sentences.shuffle():
+        shuffle(sentences)
+        for sentence in sentences:
             # create complete graph
             for p, parent in enumerate(sentence.words):
                 for c, child in enumerate(sentence.words[1:], 1):
