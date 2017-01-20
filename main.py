@@ -33,7 +33,7 @@ def main(input_args):
     if input_args.learn:  # learn new weights and features
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase began: {}".format(parse_time_begin))
-        features_num, learning_sentences = parse(input_args.l_file)
+        learning_sentences = parse(input_args.l_file)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
@@ -47,7 +47,7 @@ def main(input_args):
 
         run_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase began: {}".format(run_time_begin))
-        weights = Learning.learning_algorithm(input_args.l_iterations, learning_sentences, features_num)
+        weights = Learning.learning_algorithm(input_args.l_iterations, learning_sentences, features.num_features)
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase ended. took {}".format(run_time_end - run_time_begin))
         np.save(os.path.join(subdirectory, "weights"), weights)
@@ -60,7 +60,7 @@ def main(input_args):
     if input_args.i_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Inference parse phase began: {}".format(parse_time_begin))
-        _, inference_sentences = parse(input_args.i_file)
+        inference_sentences = parse(input_args.i_file)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Inference parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
@@ -73,14 +73,13 @@ def main(input_args):
 
         # print the inference results
         with open(os.path.join(subdirectory, "test.results"), 'w') as test_file:
-            for sentence in inference_sentences:
-                test_file.write(sentence + "\n")
-
+            test_file.write('\n\n'.join([repr(s) for s in inference_sentences]))            
+  
     # comp #
     if input_args.c_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Test parse phase began: {}".format(parse_time_begin))
-        _, comp_sentences = parse(input_args.c_file)
+        comp_sentences = parse(input_args.c_file)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Test parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
@@ -93,8 +92,7 @@ def main(input_args):
 
         # print the test results
         with open(os.path.join(subdirectory, "comp.labeled"), 'w') as comp_file:
-            for sentence in comp_sentences:
-                comp_file.write(sentence + "\n")
+            comp_file.write('\n\n'.join([repr(s) for s in comp_sentences]))
 
     # todo: add confusion matrix function call?
 

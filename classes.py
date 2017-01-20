@@ -17,7 +17,7 @@ class Sentence(object):
         if '_' not in properties[6]:
             for c, p in enumerate(properties[6], 1):
                 self.add_edge(int(p), c)
-                self.heads[c] = [int(p)]
+                self.heads[c] = int(p)
     
         self.feat_inds = []
         
@@ -30,10 +30,12 @@ class Sentence(object):
         
     def __repr__(self):
         # implement sentence print        
-        emptys = ['_']*len(self.words)
-        data = zip(range(1, len(self.words) + 1), self.words, emptys, self.pos, 
-                   emptys, emptys, self.heads, emptys, emptys)
-        text = '\n'.join(['\t'.join([str(obj) for obj in line]) for line in data])
+        emptys = ['_']*len(self.words[1:])
+        data = zip(range(1, len(self.words) + 1), self.words[1:], emptys, 
+                   self.pos[1:], emptys, emptys, self.heads[1:], emptys,
+                   emptys, emptys)
+        text = '\n'.join(['\t'.join([str(obj) for obj in 
+                          line]) for line in data])
         return text
         
     def __str__(self):

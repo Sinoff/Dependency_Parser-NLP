@@ -23,5 +23,5 @@ def parse(filename):
                                                         sentence.get_word_pos(c))
         sentences.append(sentence)
         
-    return features.num_features, sentences
+    return sentences
     
