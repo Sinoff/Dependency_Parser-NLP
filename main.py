@@ -4,6 +4,7 @@ import datetime
 from parser import corpus_parser
 import Learning
 import inference
+import numpy as np
 
 
 def main(input_args):
@@ -28,7 +29,7 @@ def main(input_args):
         # todo: compile with Orr's coder
 
     # training (AKA learning) #
-    if input_args.l_file:
+    if input_args.learn:  # learn new weights and features
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase began: {}".format(parse_time_begin))
         features_num, learning_sentences = corpus_parser(input_args.l_file)
@@ -43,9 +44,10 @@ def main(input_args):
         weights = Learning.learning_algorithm(input_args.l_iterations, learning_sentences, features_num)
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase ended. took {}".format(run_time_end - run_time_begin))
+        np.save(os.path.join(subdirectory, "weights"), weights)
 
-    # todo: decide what to do if we don't have a learning file input (must conclude with having a weights np array)
-
+    else:  # loading previous learn inputs
+        weights = np.load(input_args.learn.weights)
     # inference (AKA test) #
     if input_args.i_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
@@ -61,9 +63,8 @@ def main(input_args):
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Inference phase ended. took {}".format(run_time_end - run_time_begin))
 
-        # todo: output the results of the inference.
         # print the inference results
-        with open(os.path.join(subdirectory,"test.results"), 'w') as test_file:
+        with open(os.path.join(subdirectory, "test.results"), 'w') as test_file:
             for sentence in inference_sentences:
                 test_file.write(sentence + "\n")
 
@@ -103,7 +104,11 @@ if __name__ == '__main__':
                         help='name of model file: one line of integers separated by space')
 
     # learning
-    parser.add_argument('--l_file', type=str, default='', help='name of learning file')
+    parser.add_argument('--learn', type=bool, default=True, help='bool flag: learning (= True) or loading (= False)')
+    parser.add_argument('l_file', type=str, default='',
+                        help='name of learning file. If learn == True, it is the path to train.labeled,'
+                        'else - it is a **dir** path to where all loading files are')
+
     parser.add_argument('--l_iterations', type=int, choices=[20, 50, 80, 100], default=20,
                         help='number of learning iterations')
 
