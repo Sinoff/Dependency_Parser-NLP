@@ -12,12 +12,12 @@ def main(input_args):
 
     # initializations #
     # create results directory
-    subdirectory = "results_" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    subdirectory = "results_" + datetime.datetime.now().strftime("%d_%m-%H%M%S")
     os.mkdir(subdirectory)
     with open(os.path.join(subdirectory, "cmdline_input.txt"), 'w') as cmdline_file:
-        for arg in input_args:
-            if arg:  # save command line arguments (only if they exist)
-                cmdline_file.write(arg + " ")
+        for arg in vars(input_args):
+            if getattr(input_args, arg):
+                cmdline_file.write("{}={} ".format(arg, getattr(input_args, arg)))
 
     if input_args.m_file:  # advanced model
         with open(input_args.test_file, 'r') as f:
