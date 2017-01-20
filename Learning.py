@@ -18,6 +18,7 @@ import numpy as np
 def learning_algorithm(iteration_num, sentences, feature_num):
     weights = np.zeros(feature_num)  # initializing weights
     for iteration in range(iteration_num):
+        print("Starting iteration {}...".format(iteration))        
         feature_graph = {}
         weights_graph = {}
         shuffle(sentences)
@@ -39,7 +40,9 @@ def learning_algorithm(iteration_num, sentences, feature_num):
             mst(0, weights_graph)
             # update weights
             weights[sentence.feat_inds] += 1  # add according to golden model
-            for p, parent in enumerate(weights_graph.keys()[1:]):
-                for c, child in enumerate(weights_graph[p].keys()[1:]):
+            for p, parent in enumerate(weights_graph.keys()[1:], 1):
+                for c, child in enumerate(weights_graph[p].keys()[1:], 1):
+                    if p == c:
+                        continue
                     weights[feature_graph[p][c]] -= 1
     return weights

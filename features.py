@@ -141,11 +141,11 @@ def set_features(parent_tup, child_tup):
     for ind in model_features:
         try:
             edge_feats.append(get_feat_ind[ind](p, c, p_pos, c_pos))
-        except KeyError:
-            num_features += 1            
+        except KeyError:            
             feat_amounts[ind] += 1
             set_feat_ind[ind](p, c, p_pos, c_pos, num_features)
             edge_feats.append(num_features)
+            num_features += 1
 
     return edge_feats
     
@@ -158,7 +158,15 @@ def get_feature_list(sentence, p_ind, c_ind):
     if 'basic' in model:
         model_features = list(set(model_features) - set([7, 9, 11, 12]))
     
-    return [get_feat_ind[i](p, c, p_pos, c_pos) for i in model_features]
+    feat_inds = []    
+    try:
+        feat_inds = [get_feat_ind[i](p, c, p_pos, c_pos) 
+                     for i in model_features]
+    except KeyError:
+        # Feature never seen in corpus
+        pass
+    
+    return feat_inds
 
 
 def save_features(directory):
