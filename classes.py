@@ -6,7 +6,7 @@ Created on Wed Jan 18 20:52:35 2017
 """
 
 class Sentence(object):
-    def __init__(self, sen_block):
+    def __init__(self, sen_block, training):
         # parse sentence block from input file into data structure
         lines = [line.split('\t') for line in sen_block.split('\n')]
         properties = zip(*lines)
@@ -14,11 +14,10 @@ class Sentence(object):
         self.pos = ['ROOT'] + list(properties[3])
         self.edges = []
         self.heads = ['_']*len(self.words)
-        if '_' not in properties[6]:
+        if training:
             for c, p in enumerate(properties[6], 1):
                 self.add_edge(int(p), c)
-                self.heads[c] = int(p)
-    
+
         self.feat_inds = []
         
         
@@ -26,6 +25,7 @@ class Sentence(object):
         return self.words[ind], self.pos[ind]
         
     def add_edge(self, p_ind, c_ind):
+        self.heads[c_ind] = p_ind
         self.edges.append((p_ind, c_ind))
         
     def __repr__(self):
