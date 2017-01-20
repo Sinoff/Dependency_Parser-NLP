@@ -56,7 +56,6 @@ def main(input_args):
         weights = np.load(os.path.join(input_args.l_file, "weights"))
         features.load_features(input_args.l_file)
 
-
     # inference (AKA test) #
     if input_args.i_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
