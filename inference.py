@@ -5,12 +5,17 @@ from edmonds import mst
 def inference(sentence, weights):
     weights_graph = {}
     # find best tree
-    for p, parent in enumerate(sentence.words):
+    for p, parent in enumerate(sentence.words)[1:]:
+        weights_graph[p] = {}
         for c, child in enumerate(sentence.words[1:], 1):
             if p != c:  # cannot have self edges
-                if c == 1 or (p == 1 and c == 2):  # first edge added from this node
-                    weights_graph[p] = {}
                 weights_graph[p][c] = sum(weights[get_feature_list(sentence, p, c)])
+                weights_graph[p] = {}
+
+    # add root to all others
+    for c, child in enumerate(sentence.words[1:], 1):
+        weights_graph[0][c] = 0
+
     # call Edmonds - 0 is root
     mst(0, weights_graph)
     for p, parent in enumerate(weights_graph):
