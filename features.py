@@ -140,7 +140,7 @@ def set_features(parent_tup, child_tup):
     edge_feats = []
     for ind in model_features:
         try:
-            edge_feats.append(get_feat_ind(p, c, p_pos, c_pos))
+            edge_feats.append(get_feat_ind[ind](p, c, p_pos, c_pos))
         except KeyError:
             num_features += 1            
             feat_amounts[ind] += 1

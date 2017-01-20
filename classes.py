@@ -10,18 +10,14 @@ class Sentence(object):
         # parse sentence block from input file into data structure
         lines = [line.split('\t') for line in sen_block.split('\n')]
         properties = zip(*lines)
-        try:        
-            self.words = ['ROOT'] + list(properties[1])
-        except IndexError:
-            print sen_block
-            return
+        self.words = ['ROOT'] + list(properties[1])
         self.pos = ['ROOT'] + list(properties[3])
         self.edges = []
         self.heads = ['_']*len(self.words)
         if '_' not in properties[6]:
             for c, p in enumerate(properties[6], 1):
-                self.add_edge(p, c)
-                self.heads[c] = [p]
+                self.add_edge(int(p), c)
+                self.heads[c] = [int(p)]
     
         self.feat_inds = []
         
@@ -35,9 +31,9 @@ class Sentence(object):
     def __repr__(self):
         # implement sentence print        
         emptys = ['_']*len(self.words)
-        data = zip(range(1, len(self.words + 1)), self.words, emptys, self.pos, 
+        data = zip(range(1, len(self.words) + 1), self.words, emptys, self.pos, 
                    emptys, emptys, self.heads, emptys, emptys)
-        text = '\n'.join(['\t'.join(list(line)) for line in data])
+        text = '\n'.join(['\t'.join([str(obj) for obj in line]) for line in data])
         return text
         
     def __str__(self):

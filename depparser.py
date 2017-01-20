@@ -9,14 +9,15 @@ from classes import Sentence
 import features
 
 
-def corpus_parser(filename):
+def parse(filename):
     with open(filename, 'r') as f:
         sen_blocks = f.read().split('\n\n')
+        if not len(sen_blocks[-1]):
+            del sen_blocks[-1]
         
     sentences = []
     for block in sen_blocks:
         sentence = Sentence(block)  
-        print sentence.edges        
         for p, c in sentence.edges:
             sentence.feat_inds += features.set_features(sentence.get_word_pos(p), 
                                                         sentence.get_word_pos(c))

@@ -1,7 +1,7 @@
 import os
 import sys
 import datetime
-from parser import corpus_parser
+from depparser import parse
 import Learning
 import inference
 import numpy as np
@@ -33,7 +33,7 @@ def main(input_args):
     if input_args.learn:  # learn new weights and features
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase began: {}".format(parse_time_begin))
-        features_num, learning_sentences = corpus_parser(input_args.l_file)
+        features_num, learning_sentences = parse(input_args.l_file)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
@@ -60,7 +60,7 @@ def main(input_args):
     if input_args.i_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Inference parse phase began: {}".format(parse_time_begin))
-        _, inference_sentences = corpus_parser(input_args.i_file)
+        _, inference_sentences = parse(input_args.i_file)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Inference parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
@@ -80,7 +80,7 @@ def main(input_args):
     if input_args.c_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Test parse phase began: {}".format(parse_time_begin))
-        _, comp_sentences = corpus_parser(input_args.c_file)
+        _, comp_sentences = parse(input_args.c_file)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Test parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
