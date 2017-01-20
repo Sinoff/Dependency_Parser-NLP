@@ -40,9 +40,13 @@ def main(input_args):
 
         #  save in log file how many features of each kind were created
         with open(os.path.join(subdirectory, "feature_amounts.txt"), 'w') as featureAmountFile:
+            total = 0
             for feature, value in features.feat_amounts.items():
                 if value != 0:
                     featureAmountFile.write("{} : {}\n".format(feature, value))
+                    total += value
+            assert (total == features.num_features), "total amount of features doesn't match sum"
+            featureAmountFile.write("total : {}\n".format(features.num_features))
         # save features as pickle
         features.save_features(subdirectory)
 
