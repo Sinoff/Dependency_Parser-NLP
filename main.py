@@ -5,6 +5,7 @@ from parser import corpus_parser
 import Learning
 import inference
 import numpy as np
+import features
 
 
 def main(input_args):
@@ -36,8 +37,13 @@ def main(input_args):
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
-        # todo: save in log file how many features of each kind were created
-        # todo: add save parsed sentences option
+        #  save in log file how many features of each kind were created
+        feature_amounts = features.get_amounts()
+        with open(os.path.join(subdirectory, "featureNums.txt"), 'w') as featureAmountFile:
+            for amount in feature_amounts:
+                featureAmountFile.write(amount.key + ": " + amount.value + "\n")
+        # save features as pickle
+        features.save_features(subdirectory)
 
         run_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase began: {}".format(run_time_begin))
@@ -47,7 +53,9 @@ def main(input_args):
         np.save(os.path.join(subdirectory, "weights"), weights)
 
     else:  # loading previous learn inputs
-        weights = np.load(input_args.learn.weights)
+        weights = np.load(os.path.join(input_args.l_file, "weights"))
+        features.load_features(input_args.l_file)
+
     # inference (AKA test) #
     if input_args.i_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)

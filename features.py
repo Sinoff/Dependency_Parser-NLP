@@ -10,6 +10,9 @@ FEATURES module:
 extracts fetaures from words, parse corpus, save feature tables
 """
 
+import pickle
+import os
+
 num_feat_types = 13
 num_features = 0
 model = 'basic'
@@ -156,4 +159,11 @@ def get_feature_list(sentence, p_ind, c_ind):
         model_features = list(set(model_features) - set([7, 9, 11, 12]))
     
     return [get_feat_ind[i](p, c, p_pos, c_pos) for i in model_features]
-    
+
+
+def save_features(directory):
+    pickle.dump(features, open(os.path.join(directory, "features"), 'wb'))
+
+
+def load_features(directory):
+    features.features = pickle.load(open(os.path.join(directory, "features"), 'rb'))
