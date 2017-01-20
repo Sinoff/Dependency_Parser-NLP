@@ -1,7 +1,7 @@
 import os
 import sys
 import datetime
-from parser import corpus_parser
+from depparser import corpus_parser
 import Learning
 import inference
 import numpy as np

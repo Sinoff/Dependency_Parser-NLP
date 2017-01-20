@@ -5,13 +5,13 @@ Created on Tue Jan 17 22:30:07 2017
 @author: okrupnik
 """
 
+import pickle
+import os
+
 """
 FEATURES module: 
 extracts fetaures from words, parse corpus, save feature tables
 """
-
-import pickle
-import os
 
 num_feat_types = 13
 num_features = 0
@@ -37,6 +37,7 @@ get_feat_ind = [lambda p, c, p_pos, c_pos: (p, c),
                 ]
 
 feat_amounts = dict(zip(range(1,num_feat_types + 1), [0]*num_feat_types))
+
 
 def set_f0(p, c, p_pos, c_pos, n):
     pass
@@ -125,7 +126,6 @@ def set_f13(p, c, p_pos, c_pos, n):
     
 set_feat_ind = [set_f0, set_f1, set_f2, set_f3, set_f4, set_f5, set_f6, set_f7,
                 set_f8, set_f9, set_f10, set_f11, set_f12, set_f13]
-
 
 
 def set_features(parent_tup, child_tup):
