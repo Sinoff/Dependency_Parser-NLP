@@ -31,18 +31,20 @@ def learning_algorithm(iteration_num, sentences, feature_num):
                     if p != c:  # cannot have self edges
                         feature_graph[p][c] = get_feature_list(sentence, p, c)
                         # calc weight of edge for weights_graph
-                        weights_graph[p][c] = sum(weights[feature_graph[p][c]])
+                        weights_graph[p][c] = -np.sum(weights[feature_graph[p][c]])
             # add root to all others
+            print(weights_graph)
             weights_graph[0] = {}
             for c, child in enumerate(sentence.words[1:], 1):
                 weights_graph[0][c] = 0
             # call Edmonds - 0 is root
-            mst(0, weights_graph)
+            weights_tree = mst(0, weights_graph)
+            # print(weights_tree)
             # update weights
             weights[sentence.feat_inds] += 1  # add according to golden model
-            for p, parent in enumerate(weights_graph.keys()[1:], 1):
-                for c, child in enumerate(weights_graph[p].keys()[1:], 1):
-                    if p == c:
+            for parent in weights_tree.keys()[1:]:
+                for child in weights_tree[parent].keys()[1:]:
+                    if parent == child:
                         continue
-                    weights[feature_graph[p][c]] -= 1
+                    weights[feature_graph[parent][child]] -= 1
     return weights

@@ -1,11 +1,10 @@
 import os
 import sys
 import datetime
-from depparser import parse
+import depparser as dpp
 import Learning
 import inference
 import numpy as np
-import features
 
 
 def main(input_args):
@@ -34,34 +33,37 @@ def main(input_args):
     if input_args.learn:  # learn new weights and features
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase began: {}".format(parse_time_begin))
-        learning_sentences = parse(input_args.l_file)
+        learning_sentences = dpp.parse(input_args.l_file, True)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
         #  save in log file how many features of each kind were created
         with open(os.path.join(subdirectory, "feature_amounts.txt"), 'w') as featureAmountFile:
-            for feature, value in features.feat_amounts.items():
+            total = 0
+            for feature, value in dpp.features.feat_amounts.items():
                 if value != 0:
                     featureAmountFile.write("{} : {}\n".format(feature, value))
+                    total += value
+            assert (total == dpp.features.num_features), "total amount of features doesn't match sum"
+            featureAmountFile.write("total : {}\n".format(dpp.features.num_features))
         # save features as pickle
-        features.save_features(subdirectory)
-
+        dpp.features.save_features(subdirectory)
         run_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase began: {}".format(run_time_begin))
-        weights = Learning.learning_algorithm(input_args.l_iterations, learning_sentences, features.num_features)
+        weights = Learning.learning_algorithm(input_args.l_iterations, learning_sentences, dpp.features.num_features)
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase ended. took {}".format(run_time_end - run_time_begin))
         np.save(os.path.join(subdirectory, "weights"), weights)
 
     else:  # loading previous learn inputs
         weights = np.load(os.path.join(input_args.l_file, "weights"))
-        features.load_features(input_args.l_file)
+        dpp.features.load_features(input_args.l_file)
 
     # inference (AKA test) #
     if input_args.i_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Inference parse phase began: {}".format(parse_time_begin))
-        inference_sentences = parse(input_args.i_file)
+        inference_sentences = dpp.parse(input_args.i_file, False)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Inference parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 
@@ -80,7 +82,7 @@ def main(input_args):
     if input_args.c_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Test parse phase began: {}".format(parse_time_begin))
-        comp_sentences = parse(input_args.c_file)
+        comp_sentences = dpp.parse(input_args.c_file, False)
         parse_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Test parse phase ended. took {}".format(parse_time_end - parse_time_begin))
 

@@ -24,4 +24,3 @@ def parse(filename):
         sentences.append(sentence)
         
     return sentences
-    
