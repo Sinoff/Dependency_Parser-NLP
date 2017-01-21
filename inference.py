@@ -17,3 +17,4 @@ def inference(sentence, weights):
     for parent in weights_tree.keys():
         for child in weights_tree[parent].keys():
             sentence.add_edge(parent, child)
+            

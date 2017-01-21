@@ -42,5 +42,4 @@ def learning_algorithm(iteration_num, sentences, feature_num):
                     if parent == child:
                         continue
                     weights[feature_graph[parent][child]] -= 1
-    print weights
     return weights

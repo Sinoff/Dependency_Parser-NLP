@@ -97,8 +97,8 @@ def main(input_args):
         with open(os.path.join(subdirectory, "comp.labeled"), 'w') as comp_file:
             comp_file.write('\n\n'.join([repr(s) for s in comp_sentences]))
 
-    # todo: add confusion matrix function call?
-
+    perc = dpp.parse_for_comparison(input_args.i_file, subdirectory + "/test.results")
+    print("Error percentage: {}".format(perc))
     print("done!")
 
 
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     if args.i_file and not os.path.exists(args.i_file):
         sys.exit('Inference (AKA test) file not found')
 
-    if args.c_file and not os.path.exists(args.t_file):
+    if args.c_file and not os.path.exists(args.c_file):
         sys.exit('Competition file not found')
 
     # Run Program #
