@@ -39,7 +39,9 @@ def _reverse(graph):
                 r[dst] = { src : c }
     return r
 
-def _getCycle(n,g,visited=set(),cycle=[]):
+def _getCycle(n,g,visited=set(),cycle=None):
+    if cycle is None:
+        cycle = []
     visited.add(n)
     cycle += [n]
     if n not in g:
@@ -133,7 +135,7 @@ def mst(root,G):
     for instance a wrapper in which vertices are URLs
     and a call to G[v] loads the web page and finds its links.
     """
-
+    
     RG = _reverse(G)
     if root in RG:
         RG[root] = {}
@@ -162,7 +164,7 @@ def mst(root,G):
     rg = _reverse(g)
     for cycle in cycles:
         if root in cycle:
-            continue
+            continue        
         _mergeCycles(cycle, G, RG, g, rg)
 
     return g

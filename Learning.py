@@ -19,10 +19,10 @@ def learning_algorithm(iteration_num, sentences, feature_num):
     weights = np.zeros(feature_num)  # initializing weights
     for iteration in range(iteration_num):
         print("Starting iteration {}...".format(iteration))        
-        feature_graph = {}
-        weights_graph = {}
         shuffle(sentences)
         for sentence in sentences:
+            feature_graph = {}
+            weights_graph = {}
             # create complete graph
             for p, parent in enumerate(sentence.words[1:], 1):
                 feature_graph[p] = {}
@@ -33,7 +33,6 @@ def learning_algorithm(iteration_num, sentences, feature_num):
                         # calc weight of edge for weights_graph
                         weights_graph[p][c] = -np.sum(weights[feature_graph[p][c]])
             # add root to all others
-            print(weights_graph)
             weights_graph[0] = {}
             for c, child in enumerate(sentence.words[1:], 1):
                 weights_graph[0][c] = 100000000
