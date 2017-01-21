@@ -36,7 +36,7 @@ def learning_algorithm(iteration_num, sentences, feature_num):
             print(weights_graph)
             weights_graph[0] = {}
             for c, child in enumerate(sentence.words[1:], 1):
-                weights_graph[0][c] = 0
+                weights_graph[0][c] = 100000000
             # call Edmonds - 0 is root
             weights_tree = mst(0, weights_graph)
             # print(weights_tree)

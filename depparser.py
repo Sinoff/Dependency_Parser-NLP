@@ -9,7 +9,7 @@ from classes import Sentence
 import features
 
 
-def parse(filename):
+def parse(filename, training):
     with open(filename, 'r') as f:
         sen_blocks = f.read().split('\n\n')
         if not len(sen_blocks[-1]):
@@ -17,9 +17,10 @@ def parse(filename):
         
     sentences = []
     for block in sen_blocks:
-        sentence = Sentence(block)  
-        for p, c in sentence.edges:
-            sentence.feat_inds += features.set_features(sentence.get_word_pos(p), 
+        sentence = Sentence(block, training)
+        if training:
+            for p, c in sentence.edges:
+                sentence.feat_inds += features.set_features(sentence.get_word_pos(p),
                                                         sentence.get_word_pos(c))
         sentences.append(sentence)
         

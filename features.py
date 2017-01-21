@@ -129,7 +129,7 @@ set_feat_ind = [set_f0, set_f1, set_f2, set_f3, set_f4, set_f5, set_f6, set_f7,
 
 
 def set_features(parent_tup, child_tup):
-    global num_features    
+    global num_features
     p, p_pos = parent_tup
     c, c_pos = child_tup
     

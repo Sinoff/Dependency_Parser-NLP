@@ -14,7 +14,7 @@ def inference(sentence, weights):
     # add root to all others
     weights_graph[0] = {}
     for c, child in enumerate(sentence.words[1:], 1):
-        weights_graph[0][c] = 0
+        weights_graph[0][c] = 100000000
 
     # call Edmonds - 0 is root
     weights_tree = mst(0, weights_graph)
