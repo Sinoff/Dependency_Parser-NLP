@@ -30,7 +30,7 @@ def main(input_args):
         # todo: compile with Orr's coder
 
     # training (AKA learning) #
-    if input_args.learn:  # learn new weights and features
+    if input_args.learn == "True":  # learn new weights and features
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase began: {}".format(parse_time_begin))
         learning_sentences = dpp.parse(input_args.l_file, True)
@@ -56,8 +56,8 @@ def main(input_args):
         np.save(os.path.join(subdirectory, "weights"), weights)
 
     else:  # loading previous learn inputs
-        weights = np.load(os.path.join(input_args.l_file, "weights"))
-        dpp.features.load_features(input_args.l_file)
+        weights = np.load("{}/weights.npy".format(input_args.l_file))
+        dpp.features.features = dpp.features.pickle.load(open("{}/features.dmp".format(input_args.l_file), 'rb'))
 
     # inference (AKA test) #
     if input_args.i_file:
@@ -113,7 +113,7 @@ if __name__ == '__main__':
                         help='name of model file: one line of integers separated by space')
 
     # learning
-    parser.add_argument('--learn', type=bool, default=True, help='bool flag: learning (= True) or loading (= False)')
+    parser.add_argument('--learn', type=str, default="True", help='bool flag: learning (= True) or loading (= False)')
     parser.add_argument('l_file', type=str, default='',
                         help='name of learning file. If learn == True, it is the path to train.labeled,'
                         'else - it is a **dir** path to where all loading files are')
