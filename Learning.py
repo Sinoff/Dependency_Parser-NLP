@@ -1,7 +1,7 @@
 from random import shuffle
 from features import get_feature_list
-from edmonds import mst
 import numpy as np
+from edmonds import mst 
 
 """
     learning_algorithm:
@@ -20,11 +20,11 @@ def learning_algorithm(iteration_num, sentences, feature_num):
     for iteration in range(iteration_num):
         print("Starting iteration {}...".format(iteration))        
         shuffle(sentences)
-        for sentence in sentences:
+        for sentence in sentences:           
             feature_graph = {}
             weights_graph = {}
             # create complete graph
-            for p, parent in enumerate(sentence.words[1:], 1):
+            for p, parent in enumerate(sentence.words):
                 feature_graph[p] = {}
                 weights_graph[p] = {}
                 for c, child in enumerate(sentence.words[1:], 1):
@@ -32,18 +32,15 @@ def learning_algorithm(iteration_num, sentences, feature_num):
                         feature_graph[p][c] = get_feature_list(sentence, p, c)
                         # calc weight of edge for weights_graph
                         weights_graph[p][c] = -np.sum(weights[feature_graph[p][c]])
-            # add root to all others
-            weights_graph[0] = {}
-            for c, child in enumerate(sentence.words[1:], 1):
-                weights_graph[0][c] = 100000000
             # call Edmonds - 0 is root
             weights_tree = mst(0, weights_graph)
             # print(weights_tree)
             # update weights
             weights[sentence.feat_inds] += 1  # add according to golden model
-            for parent in weights_tree.keys()[1:]:
-                for child in weights_tree[parent].keys()[1:]:
+            for parent in weights_tree.keys():
+                for child in weights_tree[parent].keys():
                     if parent == child:
                         continue
                     weights[feature_graph[parent][child]] -= 1
+    print weights
     return weights

@@ -8,7 +8,8 @@ Created on Wed Jan 18 20:52:35 2017
 class Sentence(object):
     def __init__(self, sen_block, training):
         # parse sentence block from input file into data structure
-        lines = [line.split('\t') for line in sen_block.split('\n')]
+        lines = [line.split('\t') for line in sen_block.split('\n') 
+                 if line != '']
         properties = zip(*lines)
         self.words = ['ROOT'] + list(properties[1])
         self.pos = ['ROOT'] + list(properties[3])
