@@ -54,6 +54,7 @@ def main(input_args):
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase ended. took {}".format(run_time_end - run_time_begin))
         np.save(os.path.join(subdirectory, "weights"), weights)
+        np.savetxt(os.path.join(subdirectory, "weights.txt"), weights)
 
     else:  # loading previous learn inputs
         weights = np.load("{}/weights.npy".format(input_args.l_file))
@@ -97,8 +98,9 @@ def main(input_args):
         with open(os.path.join(subdirectory, "comp.labeled"), 'w') as comp_file:
             comp_file.write('\n\n'.join([repr(s) for s in comp_sentences]))
 
-    perc = dpp.parse_for_comparison(input_args.i_file, subdirectory + "/test.results")
-    print("Error percentage: {}".format(perc))
+    if input_args.i_file:
+        perc = dpp.parse_for_comparison(input_args.i_file, subdirectory + "/test.results")
+        print("Error percentage: {}".format(perc))
     print("done!")
 
 

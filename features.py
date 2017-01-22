@@ -158,8 +158,8 @@ def get_feature_list(sentence, p_ind, c_ind):
     if 'basic' in model:
         model_features = list(set(model_features) - set([7, 9, 11, 12]))
     
-    feat_inds = []    
-    for i in model_features:    
+    feat_inds = []
+    for i in model_features:
         try:
             feat_inds.append(get_feat_ind[i](p, c, p_pos, c_pos))
         except KeyError:
