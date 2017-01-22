@@ -29,26 +29,15 @@ def learning_algorithm(iteration_num, sentences, feature_num):
                 feature_graph[p] = {}
                 weights_graph[p] = {}
                 for c, child in enumerate(sentence.words[1:], 1):
-                    # print("parent={}, child={}".format(parent, child)) # todo: delete
                     if p != c:  # cannot have self edges
                         feature_graph[p][c] = get_feature_list(sentence, p, c)
                         # calc weight of edge for weights_graph
-                        # print (get_feature_list(sentence, p, c)) # todo: delete
-                        # print (weights[feature_graph[p][c]]) # todo: delete
-                        # print np.sum(weights[feature_graph[p][c]]) # todo: delete
-
                         weights_graph[p][c] = -np.sum(weights[feature_graph[p][c]])
             # call Edmonds - 0 is root
             weights_tree = mst(0, weights_graph)
-            print(weights_tree) # todo: delete
             # update weights
-            weights[sentence.feat_inds.keys()] += sentence.feat_inds.values  # add according to golden model
-            np.savetxt("weights_before.txt", weights) # todo: delete
+            weights[sentence.feat_inds.keys()] += sentence.feat_inds.values()  # add according to golden model
             for parent in weights_tree.keys():
                 for child in weights_tree[parent].keys():
-                    print("parent={}, child={}".format(parent, child))
                     weights[feature_graph[parent][child]] -= 1
-                    print (feature_graph[parent][child]) # todo: delete
-                    np.savetxt("weights.txt", weights) # todo: delete
-                    time.sleep(5)  # todo: delete
     return weights
