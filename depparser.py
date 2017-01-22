@@ -42,8 +42,7 @@ def parse_for_comparison(file1, file2):
         sentence1 = Sentence(block1, True)
         sentence2 = Sentence(block2, True)
         assert((sentence1.words == sentence2.words) and 
-               (sentence1.pos == sentence2.pos), "Files compared have "
-                                                 "different sentences") 
+               (sentence1.pos == sentence2.pos)), "Files compared have different sentences"
         
         for h1, h2 in zip(sentence1.heads, sentence2.heads):
             total_edges += 1

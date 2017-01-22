@@ -170,8 +170,6 @@ def get_feature_list(sentence, p_ind, c_ind):
 
 
 def save_features(directory):
-    pickle.dump(features, open(os.path.join(directory, "features"), 'wb'))
-
-
-def load_features(directory):
-    features.features = pickle.load(open(os.path.join(directory, "features"), 'rb'))
+    f = open(os.path.join(directory, "features.dmp"), 'wb')
+    pickle.dump(features, f)
+    f.close()
