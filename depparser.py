@@ -20,8 +20,14 @@ def parse(filename, training):
         sentence = Sentence(block, training)
         if training:
             for p, c in sentence.edges:
-                sentence.feat_inds += features.set_features(sentence.get_word_pos(p),
-                                                        sentence.get_word_pos(c))
+                f_inds = features.set_features(sentence.get_word_pos(p),
+                                               sentence.get_word_pos(c))
+                for f in f_inds:
+                    if f in sentence.feat_inds:
+                        sentence.feat_inds[f] += 1
+                    else:
+                        sentence.feat_inds[f] = 1
+                        
         sentences.append(sentence)
         
     return sentences

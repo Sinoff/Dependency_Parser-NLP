@@ -36,8 +36,8 @@ def learning_algorithm(iteration_num, sentences, feature_num):
             weights_tree = mst(0, weights_graph)
             # print(weights_tree)
             # update weights
-            weights[sentence.feat_inds] += 1  # add according to golden model
+            weights[sentence.feat_inds.keys()] += sentence.feat_inds.values  # add according to golden model
             for parent in weights_tree.keys():
                 for child in weights_tree[parent].keys():
-                    weights[feature_graph[parent][child]] -= 1
+                    weights[feature_graph[parent][child]] -= 1  # Subtract according to mistake graph
     return weights

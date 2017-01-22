@@ -19,7 +19,7 @@ class Sentence(object):
             for c, p in enumerate(properties[6], 1):
                 self.add_edge(int(p), c)
 
-        self.feat_inds = []
+        self.feat_inds = {}
         
         
     def get_word_pos(self, ind):
