@@ -39,7 +39,5 @@ def learning_algorithm(iteration_num, sentences, feature_num):
             weights[sentence.feat_inds] += 1  # add according to golden model
             for parent in weights_tree.keys():
                 for child in weights_tree[parent].keys():
-                    if parent == child:
-                        continue
                     weights[feature_graph[parent][child]] -= 1
     return weights
