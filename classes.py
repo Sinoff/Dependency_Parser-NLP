@@ -5,6 +5,7 @@ Created on Wed Jan 18 20:52:35 2017
 @author: okrupnik
 """
 
+
 class EdgeData(object):
     def __init__(self, sentence, p_ind, c_ind):
         self.p_ind = p_ind
