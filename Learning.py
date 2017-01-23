@@ -29,14 +29,9 @@ def learning_algorithm(iteration_num, sentences, feature_num):
                 feature_graph[p] = {}
                 weights_graph[p] = {}
                 for c, child in enumerate(sentence.words[1:], 1):
-                    # print("parent={}, child={}".format(parent, child)) # todo: delete
                     if p != c:  # cannot have self edges
                         feature_graph[p][c] = get_feature_list(sentence, p, c)
                         # calc weight of edge for weights_graph
-                        # print (get_feature_list(sentence, p, c)) # todo: delete
-                        # print (weights[feature_graph[p][c]]) # todo: delete
-                        # print np.sum(weights[feature_graph[p][c]]) # todo: delete
-
                         weights_graph[p][c] = -np.sum(weights[feature_graph[p][c]])
             # call Edmonds - 0 is root
             weights_tree = mst(0, weights_graph)
