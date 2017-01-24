@@ -2,7 +2,7 @@ from random import shuffle
 from features import get_feature_list
 import numpy as np
 from edmonds import mst
-import time
+import os
 
 """
     learning_algorithm:
@@ -16,9 +16,9 @@ import time
 """
 
 
-def learning_algorithm(iteration_num, sentences, feature_num):
+def learning_algorithm(iteration_num, sentences, feature_num, directory):
     weights = np.zeros(feature_num)  # initializing weights
-    for iteration in range(iteration_num):
+    for iteration in range(1, iteration_num+1):
         print("Starting iteration {}...".format(iteration))        
         shuffle(sentences)
         for sentence in sentences:           
@@ -40,4 +40,18 @@ def learning_algorithm(iteration_num, sentences, feature_num):
             for parent in weights_tree.keys():
                 for child in weights_tree[parent].keys():
                     weights[feature_graph[parent][child]] -= 1
+
+        # save weights during running
+        if iteration == 20:
+            np.save(os.path.join(directory, "weights20"), weights)
+            np.savetxt(os.path.join(directory, "weights20.txt"), weights)
+        elif iteration == 50:
+                np.save(os.path.join(directory, "weights50"), weights)
+                np.savetxt(os.path.join(directory, "weights50.txt"), weights)
+        elif iteration == 80:
+            np.save(os.path.join(directory, "weights80"), weights)
+            np.savetxt(os.path.join(directory, "weights80.txt"), weights)
+        elif iteration == 100:
+            np.save(os.path.join(directory, "weights100"), weights)
+            np.savetxt(os.path.join(directory, "weights100.txt"), weights)
     return weights

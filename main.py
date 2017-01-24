@@ -48,16 +48,15 @@ def main(input_args):
             featureAmountFile.write("total : {}\n".format(dpp.features.num_features))
         # save features as pickle
         dpp.features.save_features(subdirectory)
+        # start learning
         run_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase began: {}".format(run_time_begin))
-        weights = Learning.learning_algorithm(input_args.l_iterations, learning_sentences, dpp.features.num_features)
+        weights = Learning.learning_algorithm(input_args.l_iterations, learning_sentences, dpp.features.num_features, subdirectory)
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase ended. took {}".format(run_time_end - run_time_begin))
-        np.save(os.path.join(subdirectory, "weights"), weights)
-        np.savetxt(os.path.join(subdirectory, "weights.txt"), weights)
 
     else:  # loading previous learn inputs
-        weights = np.load("{}/weights.npy".format(input_args.l_file))
+        weights = np.load("{}/weights{}.npy".format(input_args.l_file, input_args.l_iterations))
         dpp.features.features = dpp.features.pickle.load(open("{}/features.dmp".format(input_args.l_file), 'rb'))
 
     # inference (AKA test) #
