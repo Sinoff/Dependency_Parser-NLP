@@ -21,9 +21,9 @@ class EdgeData(object):
         if p_ind < self.sen_len - 1:  # root is not interesting
             self.p_next_pos = sentence.pos[p_ind + 1]
         if c_ind > 1:  # root is not interesting
-            self.p_pre_pos = sentence.pos[c_ind-1]
+            self.c_pre_pos = sentence.pos[c_ind-1]
         if c_ind < self.sen_len - 1:  # root is not interesting
-            self.p_next_pos = sentence.pos[c_ind + 1]
+            self.c_next_pos = sentence.pos[c_ind + 1]
 
 class Sentence(object):
     def __init__(self, sen_block, training):
