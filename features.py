@@ -14,7 +14,7 @@ FEATURES module:
 extracts fetaures from words, parse corpus, save feature tables
 """
 
-num_feat_types = 35 # 37 - 2 (27 & 28 are commented out)
+num_feat_types = 43
 num_features = 0
 # model = 'basic'
 model_features = range(1, num_feat_types + 1)
@@ -74,7 +74,16 @@ get_feat_ind = [
                 lambda e: features[32][e.c_word][e.p_pos][e.c_pos][e.dist][e.sen_len],
                 lambda e: features[33][e.p_ind][e.c_ind][e.sen_len],
                 lambda e: features[34][e.p_pos][e.p_ind][e.c_ind][e.sen_len],
-                lambda e: features[35][e.c_pos][e.p_ind][e.c_ind][e.sen_len]
+                lambda e: features[35][e.c_pos][e.p_ind][e.c_ind][e.sen_len],
+                # surroundings features
+                lambda e: features[36][e.p_pos][e.c_pos][e.p_next_pos][e.c_next_pos],
+                lambda e: features[37][e.p_pos][e.c_pos][e.p_next_pos][e.c_pre_pos],
+                lambda e: features[38][e.p_pos][e.c_pos][e.p_pre_pos][e.c_next_pos],
+                lambda e: features[39][e.p_pos][e.c_pos][e.p_pre_pos][e.c_pre_pos],
+                lambda e: features[40][e.p_pos][e.c_pos][e.p_next_pos][e.c_next_pos][e.dist],
+                lambda e: features[41][e.p_pos][e.c_pos][e.p_next_pos][e.c_pre_pos][e.dist],
+                lambda e: features[42][e.p_pos][e.c_pos][e.p_pre_pos][e.c_next_pos][e.dist],
+                lambda e: features[43][e.p_pos][e.c_pos][e.p_pre_pos][e.c_pre_pos][e.dist]
                 ]
 
 feat_amounts = dict(zip(range(1,num_feat_types + 1), [0]*num_feat_types))
@@ -360,11 +369,149 @@ def set_f35(e, n):
     features[35][e.c_pos][e.p_ind][e.c_ind][e.sen_len] = n
 
 
+def set_f36(e, n):
+    global num_features
+    if e.p_next_pos == "NONE" or e.c_next_pos == "NONE":
+        num_features -= 1
+        feat_amounts[36] -= 1
+        return
+
+    if e.p_pos not in features[36]:
+        features[36][e.p_pos] = {}
+    if e.c_pos not in features[36][e.p_pos]:
+        features[36][e.p_pos][e.c_pos] = {}
+    if e.p_next_pos not in features[36][e.p_pos][e.c_pos]:
+        features[36][e.p_pos][e.c_pos][e.p_next_pos] = {}
+    features[36][e.p_pos][e.c_pos][e.p_next_pos][e.c_next_pos] = n
+
+
+def set_f37(e, n):
+    global num_features
+    if e.p_next_pos == "NONE" or e.c_pre_pos == "NONE":
+        num_features -= 1
+        feat_amounts[37] -= 1
+        return
+
+    if e.p_pos not in features[37]:
+        features[37][e.p_pos] = {}
+    if e.c_pos not in features[37][e.p_pos]:
+        features[37][e.p_pos][e.c_pos] = {}
+    if e.p_next_pos not in features[37][e.p_pos][e.c_pos]:
+        features[37][e.p_pos][e.c_pos][e.p_next_pos] = {}
+    features[37][e.p_pos][e.c_pos][e.p_next_pos][e.c_pre_pos] = n
+
+
+def set_f38(e, n):
+    global num_features
+    if e.p_pre_pos == "NONE" or e.c_next_pos == "NONE":
+        num_features -= 1
+        feat_amounts[38] -= 1
+        return
+
+    if e.p_pos not in features[38]:
+        features[38][e.p_pos] = {}
+    if e.c_pos not in features[38][e.p_pos]:
+        features[38][e.p_pos][e.c_pos] = {}
+    if e.p_pre_pos not in features[38][e.p_pos][e.c_pos]:
+        features[38][e.p_pos][e.c_pos][e.p_pre_pos] = {}
+    features[38][e.p_pos][e.c_pos][e.p_pre_pos][e.c_next_pos] = n
+
+
+def set_f39(e, n):
+    global num_features
+    if e.p_pre_pos == "NONE" or e.c_pre_pos == "NONE":
+        num_features -= 1
+        feat_amounts[39] -= 1
+        return
+
+    if e.p_pos not in features[39]:
+        features[39][e.p_pos] = {}
+    if e.c_pos not in features[39][e.p_pos]:
+        features[39][e.p_pos][e.c_pos] = {}
+    if e.p_pre_pos not in features[39][e.p_pos][e.c_pos]:
+        features[39][e.p_pos][e.c_pos][e.p_pre_pos] = {}
+    features[39][e.p_pos][e.c_pos][e.p_pre_pos][e.c_pre_pos] = n
+
+
+def set_f40(e, n):
+    global num_features
+    if e.p_next_pos == "NONE" or e.c_next_pos == "NONE":
+        num_features -= 1
+        feat_amounts[40] -= 1
+        return
+
+    if e.p_pos not in features[40]:
+        features[40][e.p_pos] = {}
+    if e.c_pos not in features[40][e.p_pos]:
+        features[40][e.p_pos][e.c_pos] = {}
+    if e.p_next_pos not in features[40][e.p_pos][e.c_pos]:
+        features[40][e.p_pos][e.c_pos][e.p_next_pos] = {}
+    if e.c_next_pos not in features[40][e.p_pos][e.c_pos][e.p_next_pos]:
+        features[40][e.p_pos][e.c_pos][e.p_next_pos][e.c_next_pos] = {}
+    features[40][e.p_pos][e.c_pos][e.p_next_pos][e.c_next_pos][e.dist] = n
+
+
+def set_f41(e, n):
+    global num_features
+    if e.p_next_pos == "NONE" or e.c_pre_pos == "NONE":
+        num_features -= 1
+        feat_amounts[41] -= 1
+        return
+
+    if e.p_pos not in features[41]:
+        features[41][e.p_pos] = {}
+    if e.c_pos not in features[41][e.p_pos]:
+        features[41][e.p_pos][e.c_pos] = {}
+    if e.p_next_pos not in features[41][e.p_pos][e.c_pos]:
+        features[41][e.p_pos][e.c_pos][e.p_next_pos] = {}
+    if e.c_pre_pos not in features[41][e.p_pos][e.c_pos][e.p_next_pos]:
+        features[41][e.p_pos][e.c_pos][e.p_next_pos][e.c_pre_pos] = {}
+    features[41][e.p_pos][e.c_pos][e.p_next_pos][e.c_pre_pos][e.dist] = n
+
+
+def set_f42(e, n):
+    global num_features
+    if e.p_pre_pos == "NONE" or e.c_next_pos == "NONE":
+        num_features -= 1
+        feat_amounts[42] -= 1
+        return
+
+    if e.p_pos not in features[42]:
+        features[42][e.p_pos] = {}
+    if e.c_pos not in features[42][e.p_pos]:
+        features[42][e.p_pos][e.c_pos] = {}
+    if e.p_pre_pos not in features[42][e.p_pos][e.c_pos]:
+        features[42][e.p_pos][e.c_pos][e.p_pre_pos] = {}
+    if e.c_next_pos not in features[42][e.p_pos][e.c_pos][e.p_pre_pos]:
+        features[42][e.p_pos][e.c_pos][e.p_pre_pos][e.c_next_pos] = {}
+    features[42][e.p_pos][e.c_pos][e.p_pre_pos][e.c_next_pos][e.dist] = n
+
+
+def set_f43(e, n):
+    global num_features
+    if e.p_pre_pos == "NONE" or e.c_pre_pos == "NONE":
+        num_features -= 1
+        feat_amounts[43] -= 1
+        return
+
+    if e.p_pos not in features[43]:
+        features[43][e.p_pos] = {}
+    if e.c_pos not in features[43][e.p_pos]:
+        features[43][e.p_pos][e.c_pos] = {}
+    if e.p_pre_pos not in features[43][e.p_pos][e.c_pos]:
+        features[43][e.p_pos][e.c_pos][e.p_pre_pos] = {}
+    if e.c_pre_pos not in features[43][e.p_pos][e.c_pos][e.p_pre_pos]:
+        features[43][e.p_pos][e.c_pos][e.p_pre_pos][e.c_pre_pos] = {}
+    features[43][e.p_pos][e.c_pos][e.p_pre_pos][e.c_pre_pos][e.dist] = n
+
+
 set_feat_ind = [set_f0, set_f1, set_f2, set_f3, set_f4, set_f5, set_f6, set_f7,
                 set_f8, set_f9, set_f10, set_f11, set_f12, set_f13, set_f14,
                 set_f15, set_f16, set_f17, set_f18, set_f19, set_f20, set_f21,
                 set_f22, set_f23, set_f24, set_f25, set_f26, set_f27, set_f28,
-                set_f29, set_f30, set_f31, set_f32, set_f33, set_f34, set_f35]
+                set_f29, set_f30, set_f31, set_f32, set_f33, set_f34, set_f35,
+                set_f36, set_f37, set_f38, set_f39, set_f40, set_f41, set_f42,
+                set_f43]
 
 
 def set_features(e_data):
