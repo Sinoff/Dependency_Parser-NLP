@@ -17,7 +17,17 @@ extracts fetaures from words, parse corpus, save feature tables
 num_feat_types = 35 # 37 - 2 (27 & 28 are commented out)
 num_features = 0
 # model = 'basic'
-model = 'advanced'
+model_features = range(1, num_feat_types + 1)
+
+def set_model_features(feat_file):
+    global model_features
+    global num_feat_types
+    with open(feat_file, 'r') as ff:
+        model_features = [int(x) for x in ff.read().split()]
+    
+    print("Feature types used: " + str(model_features))
+
+
 
 features = [{} for _ in xrange(num_feat_types + 1)]
 
@@ -359,12 +369,8 @@ set_feat_ind = [set_f0, set_f1, set_f2, set_f3, set_f4, set_f5, set_f6, set_f7,
 
 def set_features(e_data):
     global num_features
+    global model_features
     
-    model_features = range(1, num_feat_types + 1)    
-    if 'basic' in model:
-        # model_features = list(set(model_features) - set([7, 9, 11, 12])) # todo: delete?
-        model_features = list(set([1, 2, 3, 4, 5, 6, 8, 10, 13]))
-
     edge_feats = []
     for ind in model_features:
         try:
@@ -379,15 +385,13 @@ def set_features(e_data):
     
 
 def get_feature_list(sentence, p_ind, c_ind):
+    global model_features
+    
     try:
         e_data = sentence.edge_data[p_ind][c_ind]
     except KeyError:
         e_data = EdgeData(sentence, p_ind, c_ind)
     model_features = range(1, num_feat_types + 1)    
-
-    if 'basic' in model:
-        # model_features = list(set(model_features) - set([7, 9, 11, 12])) # todo: delete?
-        model_features = list(set([1, 2, 3, 4, 5, 6, 8, 10, 13]))
 
     feat_inds = []
     for i in model_features:

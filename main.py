@@ -18,17 +18,12 @@ def main(input_args):
             if getattr(input_args, arg):
                 cmdline_file.write("{}={} ".format(arg, getattr(input_args, arg)))
 
-    if input_args.m_file:  # advanced model
-        print("advanced model selected")
-        with open(input_args.m_file, 'r') as f:
-            model_features = [line.split() for line in f.readlines()]
-
-        # todo: compile with Orr's code
-
-    else:  # basic model
-        print("basic model selected")
-        # todo: compile with Orr's coder
-
+    # Model selection (file should include list of features)
+    if input_args.m_file:
+        dpp.features.set_model_features(args.m_file)
+    else:
+        print("Using all {} feature types.".format(str(dpp.features.num_feat_types)))
+        
     # training (AKA learning) #
     if input_args.learn == "True":  # learn new weights and features
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
