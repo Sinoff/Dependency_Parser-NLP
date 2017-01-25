@@ -26,45 +26,45 @@ def _getCycle(n,g,visited,cycle):
 
 def _mergeCycles(cycle,G,RG,g,rg):
     allInEdges = []
-    minInternal = None
-    minInternalWeight = float("inf")
+    maxInternal = None
+    maxInternalWeight = -float("inf")
 
     # find minimal internal edge weight
     for n in cycle:
         for e in RG[n]:
             if e in cycle:
-                if minInternal is None or RG[n][e] < minInternalWeight:
-                    minInternal = (n,e)
-                    minInternalWeight = RG[n][e]
+                if maxInternal is None or RG[n][e] > maxInternalWeight:
+                    maxInternal = (n,e)
+                    maxInternalWeight = RG[n][e]
                     continue
             else:
                 allInEdges.append((n,e))        
 
     # find the incoming edge with minimum modified cost
-    minExternal = None
-    minModifiedWeight = 0
+    maxExternal = None
+    maxModifiedWeight = -float("inf")
     for s,t in allInEdges:
         u,v = rg[s].popitem()
         rg[s][u] = v
-        w = RG[s][t] - (v - minInternalWeight)
-        if minExternal is None or minModifiedWeight > w:
-            minExternal = (s,t)
-            minModifiedWeight = w
+        w = RG[s][t] - (v - maxInternalWeight)
+        if maxExternal is None or maxModifiedWeight < w:
+            maxExternal = (s,t)
+            maxModifiedWeight = w
 
-    u,w = rg[minExternal[0]].popitem()
-    rem = (minExternal[0],u)
-    rg[minExternal[0]].clear()
-    if minExternal[1] in rg:
-        rg[minExternal[1]][minExternal[0]] = w
+    u,w = rg[maxExternal[0]].popitem()
+    rem = (maxExternal[0],u)
+    rg[maxExternal[0]].clear()
+    if maxExternal[1] in rg:
+        rg[maxExternal[1]][maxExternal[0]] = w
     else:
-        rg[minExternal[1]] = { minExternal[0] : w }
+        rg[maxExternal[1]] = { maxExternal[0] : w }
     if rem[1] in g:
         if rem[0] in g[rem[1]]:
             del g[rem[1]][rem[0]]
-    if minExternal[1] in g:
-        g[minExternal[1]][minExternal[0]] = w
+    if maxExternal[1] in g:
+        g[maxExternal[1]][maxExternal[0]] = w
     else:
-        g[minExternal[1]] = { minExternal[0] : w }
+        g[maxExternal[1]] = { maxExternal[0] : w }
 
 # --------------------------------------------------------------------------------- #
 
@@ -116,11 +116,11 @@ def mst(root,G):
     for n in RG:
         if len(RG[n]) == 0:
             continue
-        minimum = float("inf")
+        maximum = -float("inf")
         s,d = None,None
         for e in RG[n]:
-            if RG[n][e] < minimum:
-                minimum = RG[n][e]
+            if RG[n][e] > maximum:
+                maximum = RG[n][e]
                 s,d = n,e
         if d in g:
             g[d][s] = RG[s][d]
