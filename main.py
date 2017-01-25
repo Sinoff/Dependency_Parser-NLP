@@ -5,6 +5,7 @@ import depparser as dpp
 import Learning
 import inference
 import numpy as np
+from shutil import copyfile
 
 
 def main(input_args):
@@ -20,7 +21,8 @@ def main(input_args):
 
     # Model selection (file should include list of features)
     if input_args.m_file:
-        dpp.features.set_model_features(args.m_file)
+        dpp.features.set_model_features(input_args.m_file)
+        copyfile(input_args.m_file, os.path.join(subdirectory, "features_input.txt"))
     else:
         print("Using all {} feature types.".format(str(dpp.features.num_feat_types)))
         
