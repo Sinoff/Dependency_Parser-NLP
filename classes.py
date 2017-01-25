@@ -32,6 +32,8 @@ class EdgeData(object):
             self.c_next_pos = sentence.pos[c_ind + 1]
         else:
             self.c_next_pos = "NONE"
+        
+        self.p_out_edges = []
 
 
 class Sentence(object):
@@ -51,6 +53,8 @@ class Sentence(object):
 
         self.feat_inds = {}
         
+        for p, c in self.edges:
+            self.edge_data[p][c].p_out_edges = [cc for pp, cc in self.edges if pp == p]
         
     def get_word_pos(self, ind):
         return self.words[ind], self.pos[ind]
