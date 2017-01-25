@@ -67,7 +67,7 @@ def main(input_args):
         run_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Inference phase began: {}".format(run_time_begin))
         for sentence in inference_sentences:
-            inference.inference(sentence, weights)
+            inference.inference(sentence, weights, args.onetree)
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Inference phase ended. took {}".format(run_time_end - run_time_begin))
 
@@ -86,7 +86,7 @@ def main(input_args):
         run_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Test phase began: {}".format(run_time_begin))
         for sentence in comp_sentences:
-            inference.inference(sentence, weights)
+            inference.inference(sentence, weights, args.onetree)
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Test phase ended. took {}".format(run_time_end - run_time_begin))
 
@@ -125,6 +125,10 @@ if __name__ == '__main__':
     # test
     parser.add_argument('--c_file', type=str, default='', help='name of comp file')
 
+    parser.add_argument('--onetree', '-o', action='store_true', help='Set this' 
+                        ' flag to use one full graph instead of choosing the best of many')
+    
+    
     args = parser.parse_args()
 
     # Argument Validation #
