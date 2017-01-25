@@ -84,11 +84,6 @@ get_feat_ind = [
                 lambda e: features[41][e.p_pos][e.c_pos][e.p_next_pos][e.c_pre_pos][e.dist],
                 lambda e: features[42][e.p_pos][e.c_pos][e.p_pre_pos][e.c_next_pos][e.dist],
                 lambda e: features[43][e.p_pos][e.c_pos][e.p_pre_pos][e.c_pre_pos][e.dist],
-                # comma features (difference in set function)
-                lambda e: features[44][e.p_pos][e.p_ind][e.c_ind],
-                lambda e: features[45][e.p_pos][e.dist][e.sen_len],
-                lambda e: features[46][e.p_pos][e.p_ind][e.dist][e.sen_len],
-                lambda e: features[47][e.dist][e.sen_len]
                 ]
 
 feat_amounts = dict(zip(range(1,num_feat_types + 1), [0]*num_feat_types))
@@ -510,64 +505,13 @@ def set_f43(e, n):
     features[43][e.p_pos][e.c_pos][e.p_pre_pos][e.c_pre_pos][e.dist] = n
 
 
-def set_f44(e, n):
-    global num_features
-    if e.c_pos != ",":
-        num_features -= 1
-        feat_amounts[44] -= 1
-        return
-    if e.p_pos not in features[44]:
-        features[44][e.p_pos] = {}
-    if e.p_ind not in features[44][e.p_pos]:
-        features[44][e.p_pos][e.p_ind] = {}
-    features[44][e.p_pos][e.p_ind][e.c_ind] = n
-
-
-def set_f45(e, n):
-    global num_features
-    if e.c_pos != ",":
-        num_features -= 1
-        feat_amounts[44] -= 1
-        return
-    if e.p_pos not in features[45]:
-        features[45][e.p_pos] = {}
-    if e.dist not in features[45][e.p_pos]:
-        features[45][e.p_pos][e.dist] = {}
-    features[45][e.p_pos][e.dist][e.sen_len] = n
-
-
-def set_f46(e, n):
-    global num_features
-    if e.c_pos != ",":
-        num_features -= 1
-        feat_amounts[46] -= 1
-        return
-    if e.p_pos not in features[46]:
-        features[46][e.p_pos] = {}
-    if e.p_ind not in features[46][e.p_pos]:
-        features[46][e.p_pos][e.p_ind] = {}
-    if e.dist not in features[46][e.p_pos][e.p_ind]:
-        features[46][e.p_pos][e.p_ind][e.dist] = {}
-    features[46][e.p_pos][e.p_ind][e.dist][e.sen_len] = n
-
-
-def set_f47(e, n):
-    global num_features
-    if e.c_pos != ",":
-        num_features -= 1
-        feat_amounts[47] -= 1
-        return
-    if e.dist not in features[47]:
-        features[47][e.dist] = {}
-    features[47][e.dist][e.sen_len] = n
-
 set_feat_ind = [set_f0, set_f1, set_f2, set_f3, set_f4, set_f5, set_f6, set_f7,
                 set_f8, set_f9, set_f10, set_f11, set_f12, set_f13, set_f14,
                 set_f15, set_f16, set_f17, set_f18, set_f19, set_f20, set_f21,
                 set_f22, set_f23, set_f24, set_f25, set_f26, set_f27, set_f28,
                 set_f29, set_f30, set_f31, set_f32, set_f33, set_f34, set_f35,
                 set_f36, set_f37, set_f38, set_f39, set_f40, set_f41, set_f42,
-                set_f43, set_f44, set_f45, set_f46, set_f47]
+                set_f43]
 
 
 def set_features(e_data):
