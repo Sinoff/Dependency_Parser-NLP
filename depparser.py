@@ -32,7 +32,6 @@ def parse(filename, training):
     return sentences
 
 
-
 def parse_for_comparison(file1, file2):
     sen_blocks = [[], []]    
     for ind, filename in enumerate([file1, file2]):

@@ -20,7 +20,7 @@ class EdgeData(object):
             self.p_pre_pos = sentence.pos[p_ind-1]
         else:
             self.p_pre_pos = "NONE"
-        if p_ind < self.sen_len - 1:  # root is not interesting
+        if p_ind < self.sen_len - 1 and p_ind != 0:  # root is not interesting
             self.p_next_pos = sentence.pos[p_ind + 1]
         else:
             self.p_next_pos = "NONE"
@@ -28,7 +28,7 @@ class EdgeData(object):
             self.c_pre_pos = sentence.pos[c_ind-1]
         else:
             self.c_pre_pos = "NONE"
-        if c_ind < self.sen_len - 1:  # root is not interesting
+        if c_ind < self.sen_len - 1 and c_ind != 0:  # root is not interesting
             self.c_next_pos = sentence.pos[c_ind + 1]
         else:
             self.c_next_pos = "NONE"
