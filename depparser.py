@@ -41,16 +41,30 @@ def parse_for_comparison(file1, file2):
                 del sen_blocks[ind][-1]
         
     total_edges = 0
-    wrong_edges = 0        
+    wrong_edges = 0
+    wrong_edge_types = {}
+    golden_sens = []
     for block1, block2 in zip(*sen_blocks):
         sentence1 = Sentence(block1, True)
         sentence2 = Sentence(block2, True)
         assert((sentence1.words == sentence2.words) and 
                (sentence1.pos == sentence2.pos)), "Files compared have different sentences"
         
-        for h1, h2 in zip(sentence1.heads, sentence2.heads):
+        for dep, h1, h2 in zip(sentence1.dependencies, 
+                               sentence1.heads, sentence2.heads):
             total_edges += 1
             if h1 != h2:
                 wrong_edges += 1
+                if dep in wrong_edge_types:
+                    wrong_edge_types[dep] += 1
+                else:
+                    wrong_edge_types[dep] = 1
         
-    return 100.0 * wrong_edges / total_edges
+        sentence1.dependencies = ['_']*len(sentence1.words)
+        golden_sens.append(sentence1)
+        
+    print("Histogram of wrong dependenciy percentages: \n")    
+    for dep_type in wrong_edge_types:
+        print("{}: {}".format(dep_type, 100.0 * wrong_edge_types[dep_type] / wrong_edges))
+        
+    return 100.0 * wrong_edges / total_edges, golden_sens

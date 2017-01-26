@@ -19,21 +19,22 @@ class EdgeData(object):
         if p_ind > 1:  # root is not interesting
             self.p_pre_pos = sentence.pos[p_ind-1]
         else:
-            self.p_pre_pos = "NONE"
+            self.p_pre_pos = None
         if p_ind < self.sen_len - 1 and p_ind != 0:  # root is not interesting
             self.p_next_pos = sentence.pos[p_ind + 1]
         else:
-            self.p_next_pos = "NONE"
+            self.p_next_pos = None
         if c_ind > 1:  # root is not interesting
             self.c_pre_pos = sentence.pos[c_ind-1]
         else:
-            self.c_pre_pos = "NONE"
+            self.c_pre_pos = None
         if c_ind < self.sen_len - 1 and c_ind != 0:  # root is not interesting
             self.c_next_pos = sentence.pos[c_ind + 1]
         else:
-            self.c_next_pos = "NONE"
+            self.c_next_pos = None
         
         self.p_out_edges = []
+
 
 
 class Sentence(object):
@@ -47,9 +48,11 @@ class Sentence(object):
         self.edges = []
         self.edge_data = {}
         self.heads = ['_']*len(self.words)
+        self.dependencies = ['_']*len(self.words)
         if training:
             for c, p in enumerate(properties[6], 1):
                 self.add_edge(int(p), c)
+                self.dependencies[c] = properties[7][c - 1]
 
         self.feat_inds = {}
         

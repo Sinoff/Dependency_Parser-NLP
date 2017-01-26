@@ -95,8 +95,10 @@ def main(input_args):
             comp_file.write('\n\n'.join([repr(s) for s in comp_sentences]))
 
     if input_args.i_file:
-        perc = dpp.parse_for_comparison(input_args.i_file, subdirectory + "/test.results")
+        perc, comp_sens = dpp.parse_for_comparison(input_args.i_file, subdirectory + "/test.results")
         print("Error percentage: {}".format(perc))
+        with open(os.path.join(subdirectory, "test.unlabeled"), 'w') as test_file:
+            test_file.write('\n\n'.join([repr(s) for s in comp_sens]))
     print("done!")
 
 

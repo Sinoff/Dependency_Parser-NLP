@@ -375,7 +375,7 @@ def set_f35(e, n):
 
 def set_f36(e, n):
     global num_features
-    if e.p_next_pos == "NONE" or e.c_next_pos == "NONE":
+    if e.p_next_pos is None or e.c_next_pos is None:
         num_features -= 1
         feat_amounts[36] -= 1
         return
@@ -391,7 +391,7 @@ def set_f36(e, n):
 
 def set_f37(e, n):
     global num_features
-    if e.p_next_pos == "NONE" or e.c_pre_pos == "NONE":
+    if e.p_next_pos is None or e.c_pre_pos is None:
         num_features -= 1
         feat_amounts[37] -= 1
         return
@@ -407,7 +407,7 @@ def set_f37(e, n):
 
 def set_f38(e, n):
     global num_features
-    if e.p_pre_pos == "NONE" or e.c_next_pos == "NONE":
+    if e.p_pre_pos is None or e.c_next_pos is None:
         num_features -= 1
         feat_amounts[38] -= 1
         return
@@ -423,7 +423,7 @@ def set_f38(e, n):
 
 def set_f39(e, n):
     global num_features
-    if e.p_pre_pos == "NONE" or e.c_pre_pos == "NONE":
+    if e.p_pre_pos is None or e.c_pre_pos is None:
         num_features -= 1
         feat_amounts[39] -= 1
         return
@@ -439,7 +439,7 @@ def set_f39(e, n):
 
 def set_f40(e, n):
     global num_features
-    if e.p_next_pos == "NONE" or e.c_next_pos == "NONE":
+    if e.p_next_pos is None or e.c_next_pos is None:
         num_features -= 1
         feat_amounts[40] -= 1
         return
@@ -457,7 +457,7 @@ def set_f40(e, n):
 
 def set_f41(e, n):
     global num_features
-    if e.p_next_pos == "NONE" or e.c_pre_pos == "NONE":
+    if e.p_next_pos is None or e.c_pre_pos is None:
         num_features -= 1
         feat_amounts[41] -= 1
         return
@@ -475,7 +475,7 @@ def set_f41(e, n):
 
 def set_f42(e, n):
     global num_features
-    if e.p_pre_pos == "NONE" or e.c_next_pos == "NONE":
+    if e.p_pre_pos is None or e.c_next_pos is None:
         num_features -= 1
         feat_amounts[42] -= 1
         return
@@ -493,7 +493,7 @@ def set_f42(e, n):
 
 def set_f43(e, n):
     global num_features
-    if e.p_pre_pos == "NONE" or e.c_pre_pos == "NONE":
+    if e.p_pre_pos is None or e.c_pre_pos is None:
         num_features -= 1
         feat_amounts[43] -= 1
         return
