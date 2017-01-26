@@ -68,13 +68,13 @@ def _mergeCycles(cycle,G,RG,g,rg):
 
 # --------------------------------------------------------------------------------- #
 
-from networkx import maximum_spanning_arborescence, DiGraph
+from networkx import minimum_spanning_arborescence, DiGraph
 def mst(root, G):
     DG = DiGraph()
     for p in G:
         for c in G[p]:
-            DG.add_edge(p, c, weight=G[p][c])
-    dgmst = maximum_spanning_arborescence(DG)
+            DG.add_edge(p, c, attr_dict={'weight' : G[p][c]})
+    dgmst = minimum_spanning_arborescence(DG, attr='weight')
     return dgmst.edge
             
             

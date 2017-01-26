@@ -1,7 +1,7 @@
 from random import shuffle
 from features import get_feature_list
 import numpy as np
-from edmonds import mst
+from modified_edmonds import mst
 import os
 
 """
