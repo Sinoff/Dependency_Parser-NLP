@@ -85,7 +85,7 @@ get_feat_ind = [
                 lambda e: features[42][e.p_pos][e.c_pos][e.p_pre_pos][e.c_next_pos][e.dist],
                 lambda e: features[43][e.p_pos][e.c_pos][e.p_pre_pos][e.c_pre_pos][e.dist],
                 # amount of brothers features
-                lambda e: features[44][e.p_pos][len(e.p_out_edges)],
+                lambda e: features[44][e.p_pos][e.c_pos][len(e.p_out_edges)][e.dist][e.sen_len],
                 lambda e: features[45][e.p_pos][e.c_pos][len(e.p_out_edges)],
                 lambda e: features[46][e.p_pos][e.c_pos][len(e.p_out_edges)][e.dist]
                 ]
@@ -512,7 +512,13 @@ def set_f43(e, n):
 def set_f44(e, n):
     if e.p_pos not in features[44]:
         features[44][e.p_pos] = {}
-    features[44][e.p_pos][len(e.p_out_edges)] = n
+    if e.c_pos not in features[44][e.p_pos]:
+        features[44][e.p_pos][e.c_pos] = {}
+    if len(e.p_out_edges) not in features[44][e.p_pos][e.c_pos]:
+        features[44][e.p_pos][e.c_pos][len(e.p_out_edges)] = {}
+    if e.dist not in features[44][e.p_pos][e.c_pos][len(e.p_out_edges)]:
+        features[44][e.p_pos][e.c_pos][len(e.p_out_edges)][e.dist] = {}
+    features[44][e.p_pos][e.c_pos][len(e.p_out_edges)][e.dist][e.sen_len] = n
 
 
 def set_f45(e, n):
@@ -524,6 +530,12 @@ def set_f45(e, n):
 
 
 def set_f46(e, n):
+    global num_features
+    if e.p_ind != 0:
+        num_features -= 1
+        feat_amounts[46] -= 1
+        return
+
     if e.p_pos not in features[46]:
         features[46][e.p_pos] = {}
     if e.c_pos not in features[46][e.p_pos]:
