@@ -600,8 +600,7 @@ def set_f53(e, n):
         features[53][e.p_word][e.c_word][e.p_pos] = {}
     features[53][e.p_word][e.c_word][e.p_pos][e.dist] = n
 
-                
-                
+
 set_feat_ind = [set_f0, set_f1, set_f2, set_f3, set_f4, set_f5, set_f6, set_f7,
                 set_f8, set_f9, set_f10, set_f11, set_f12, set_f13, set_f14,
                 set_f15, set_f16, set_f17, set_f18, set_f19, set_f20, set_f21,
