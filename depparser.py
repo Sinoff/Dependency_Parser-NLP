@@ -17,7 +17,9 @@ def parse(filename, training):
         
     sentences = []
     for block in sen_blocks:
+        # First, create sentence
         sentence = Sentence(block, training)
+        # Then, create all relevant features        
         if training:
             for p, c in sentence.edges:
                 f_inds = features.set_features(sentence.edge_data[p][c])
@@ -33,6 +35,10 @@ def parse(filename, training):
 
 
 def parse_for_comparison(file1, file2):
+    """ Parse two files and compare head tokens. 
+        Implements multiple error counters to figure out where 
+        most parsing errors lie, in terms of dependency labels.
+    """
     sen_blocks = [[], []]    
     for ind, filename in enumerate([file1, file2]):
         with open(filename, 'r') as f:

@@ -19,7 +19,11 @@ num_features = 0
 # model = 'basic'
 model_features = range(1, num_feat_types + 1)
 
+
 def set_model_features(feat_file):
+    """ Set feature types to use according to model file.
+        Basic model is 1 2 3 4 5 6 8 10 13
+    """
     global model_features
     global num_feat_types
     with open(feat_file, 'r') as ff:
@@ -28,10 +32,10 @@ def set_model_features(feat_file):
     print("Feature types used: " + str(model_features))
 
 
-
+# Dictionaries holding actual feature numbers
 features = [{} for _ in xrange(num_feat_types + 1)]
 
-    
+# Get index of feature by feature type and descriptors
 get_feat_ind = [
                 # unigrams features
                 lambda e: (e.p_word, e.c_word),
@@ -100,6 +104,7 @@ get_feat_ind = [
 feat_amounts = dict(zip(range(1,num_feat_types + 1), [0]*num_feat_types))
 
 
+### The following functions set a feature index to a feature by type
 def set_f0(e, n):
     pass
 
@@ -545,7 +550,7 @@ def set_f47(e, n):
     
     
 def set_f48(e, n):
-    if e.p_pos not in features[48]:
+    if e.p_word not in features[48]:
         features[48][e.p_word] = {}
     if e.p_pos not in features[48][e.p_word]:
         features[48][e.p_word][e.p_pos] = {}
@@ -606,8 +611,11 @@ set_feat_ind = [set_f0, set_f1, set_f2, set_f3, set_f4, set_f5, set_f6, set_f7,
                 set_f43, set_f44, set_f45, set_f46, set_f47, set_f48, set_f49, 
                 set_f50, set_f51, set_f52, set_f53]
 
+#############################################################################
 
 def set_features(e_data):
+    """ In training mode, set all relevant features "lit" by received edge.
+    """
     global num_features
     global model_features
     
@@ -625,6 +633,10 @@ def set_features(e_data):
     
 
 def get_feature_list(sentence, p_ind, c_ind):
+    """ Get all feature indices lit by specific edge in sentence. 
+        This is used to choose indices in weight vector to sum on and 
+        receive edge score. 
+    """
     global model_features
     
     try:

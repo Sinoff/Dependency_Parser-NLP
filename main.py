@@ -4,13 +4,12 @@ import datetime
 import depparser as dpp
 import Learning
 import inference
-import numpy as np
 from shutil import copyfile
 
 
 def main(input_args):
 
-    # initializations #
+    # initializations #######################################################
     # create results directory
     subdirectory = "results_" + datetime.datetime.now().strftime("%d_%m-%H%M%S")
     os.mkdir(subdirectory)
@@ -26,7 +25,7 @@ def main(input_args):
     else:
         print("Using all {} feature types.".format(str(dpp.features.num_feat_types)))
         
-    # training (AKA learning) #
+    # training (AKA learning) ##########################################
     if input_args.learn == "True":  # learn new weights and features
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train parse phase began: {}".format(parse_time_begin))
@@ -48,15 +47,18 @@ def main(input_args):
         # start learning
         run_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase began: {}".format(run_time_begin))
-        weights = Learning.learning_algorithm(input_args.l_iterations, learning_sentences, dpp.features.num_features, subdirectory)
+        weights = Learning.learning_algorithm(input_args.l_iterations, 
+                                              learning_sentences, 
+                                              dpp.features.num_features, 
+                                              subdirectory)
         run_time_end = datetime.datetime.now().replace(microsecond=0)
         print ("Train phase ended. took {}".format(run_time_end - run_time_begin))
 
     else:  # loading previous learn inputs
-        weights = np.load("{}/weights{}.npy".format(input_args.l_file, input_args.l_iterations))
+        weights = Learning.np.load("{}/weights{}.npy".format(input_args.l_file, input_args.l_iterations))
         dpp.features.features = dpp.features.pickle.load(open("{}/features.dmp".format(input_args.l_file), 'rb'))
 
-    # inference (AKA test) #
+    # inference (AKA test) ############################
     if input_args.i_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Inference parse phase began: {}".format(parse_time_begin))
@@ -75,7 +77,7 @@ def main(input_args):
         with open(os.path.join(subdirectory, "test.results"), 'w') as test_file:
             test_file.write('\n\n'.join([repr(s) for s in inference_sentences]))            
   
-    # comp #
+    # competition #################################
     if input_args.c_file:
         parse_time_begin = datetime.datetime.now().replace(microsecond=0)
         print ("Test parse phase began: {}".format(parse_time_begin))
