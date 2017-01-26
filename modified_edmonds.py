@@ -68,7 +68,18 @@ def _mergeCycles(cycle,G,RG,g,rg):
 
 # --------------------------------------------------------------------------------- #
 
-def mst(root,G):
+from networkx import maximum_spanning_arborescence, DiGraph
+def mst(root, G):
+    DG = DiGraph()
+    for p in G:
+        for c in G[p]:
+            DG.add_edge(p, c, weight=G[p][c])
+    dgmst = maximum_spanning_arborescence(DG)
+    return dgmst.edge
+            
+            
+    
+def old_mst(root,G):
     """ The Chu-Lui/Edmond's algorithm
 
     arguments:
