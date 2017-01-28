@@ -3,7 +3,7 @@ import os
 from classes import EdgeData
 
 """
-FEATURES module: 
+FEATURES module:
 extracts features from words, parse corpus, save feature tables
 """
 
@@ -21,7 +21,7 @@ def set_model_features(feat_file):
     global num_feat_types
     with open(feat_file, 'r') as ff:
         model_features = [int(x) for x in ff.read().split()]
-    
+
     print("Feature types used: " + str(model_features))
 
 
@@ -102,21 +102,21 @@ def set_f0(e, n):
     pass
 
 
-def set_f1(e, n): 
+def set_f1(e, n):
     if e.p_word not in features[1]:
         features[1][e.p_word] = {}
     features[1][e.p_word][e.p_pos] = n
 
 
-def set_f2(e, n): 
+def set_f2(e, n):
     features[2][e.p_word] = n
 
 
-def set_f3(e, n): 
+def set_f3(e, n):
     features[3][e.p_pos] = n
 
 
-def set_f4(e, n): 
+def set_f4(e, n):
     if e.c_word not in features[4]:
         features[4][e.c_word] = {}
     features[4][e.c_word][e.c_pos] = n
@@ -126,11 +126,11 @@ def set_f5(e, n):
     features[5][e.c_word] = n
 
 
-def set_f6(e, n): 
+def set_f6(e, n):
     features[6][e.c_pos] = n
 
 
-def set_f7(e, n): 
+def set_f7(e, n):
     if e.p_word not in features[7]:
         features[7][e.p_word] = {}
     if e.c_word not in features[7][e.p_word]:
@@ -140,15 +140,15 @@ def set_f7(e, n):
     features[7][e.p_word][e.c_word][e.p_pos][e.c_pos] = n
 
 
-def set_f8(e, n): 
+def set_f8(e, n):
     if e.c_word not in features[8]:
         features[8][e.c_word] = {}
     if e.p_pos not in features[8][e.c_word]:
-        features[8][e.c_word][e.p_pos] = {}    
+        features[8][e.c_word][e.p_pos] = {}
     features[8][e.c_word][e.p_pos][e.c_pos] = n
 
 
-def set_f9(e, n): 
+def set_f9(e, n):
     if e.p_word not in features[9]:
         features[9][e.p_word] = {}
     if e.c_word not in features[9][e.p_word]:
@@ -156,7 +156,7 @@ def set_f9(e, n):
     features[9][e.p_word][e.c_word][e.c_pos] = n
 
 
-def set_f10(e, n): 
+def set_f10(e, n):
     if e.p_word not in features[10]:
         features[10][e.p_word] = {}
     if e.p_pos not in features[10][e.p_word]:
@@ -164,7 +164,7 @@ def set_f10(e, n):
     features[10][e.p_word][e.p_pos][e.c_pos] = n
 
 
-def set_f11(e, n): 
+def set_f11(e, n):
     if e.p_word not in features[11]:
         features[11][e.p_word] = {}
     if e.c_word not in features[11][e.p_word]:
@@ -172,13 +172,13 @@ def set_f11(e, n):
     features[11][e.p_word][e.c_word][e.p_pos] = n
 
 
-def set_f12(e, n): 
+def set_f12(e, n):
     if e.p_word not in features[12]:
         features[12][e.p_word] = {}
     features[12][e.p_word][e.c_word] = n
 
 
-def set_f13(e, n): 
+def set_f13(e, n):
     if e.p_pos not in features[13]:
         features[13][e.p_pos] = {}
     features[13][e.p_pos][e.c_pos] = n
@@ -528,8 +528,8 @@ def set_f45(e, n):
     if e.c_word not in features[45][e.p_pos]:
         features[45][e.p_pos][e.c_word] = {}
     features[45][e.p_pos][e.c_word][e.dist] = n
-    
-    
+
+
 def set_f46(e, n):
     if e.p_word not in features[46]:
         features[46][e.p_word] = {}
@@ -540,28 +540,28 @@ def set_f47(e, n):
     if e.p_pos not in features[47]:
         features[47][e.p_pos] = {}
     features[47][e.p_pos][e.dist] = n
-    
-    
+
+
 def set_f48(e, n):
     if e.p_word not in features[48]:
         features[48][e.p_word] = {}
     if e.p_pos not in features[48][e.p_word]:
         features[48][e.p_word][e.p_pos] = {}
     features[48][e.p_word][e.p_pos][e.dist] = n
-    
-    
+
+
 def set_f49(e, n):
     if e.c_word not in features[49]:
         features[49][e.c_word] = {}
     features[49][e.c_word][e.dist] = n
-    
-    
+
+
 def set_f50(e, n):
     if e.c_pos not in features[50]:
         features[50][e.c_pos] = {}
     features[50][e.c_pos][e.dist] = n
-    
-    
+
+
 def set_f51(e, n):
     if e.p_word not in features[51]:
         features[51][e.p_word] = {}
@@ -572,8 +572,8 @@ def set_f51(e, n):
     if e.c_pos not in features[51][e.p_word][e.c_word][e.p_pos]:
         features[51][e.p_word][e.c_word][e.p_pos][e.c_pos] = {}
     features[51][e.p_word][e.c_word][e.p_pos][e.c_pos][e.dist] = n
-    
-    
+
+
 def set_f52(e, n):
     if e.p_word not in features[52]:
         features[52][e.p_word] = {}
@@ -600,7 +600,7 @@ set_feat_ind = [set_f0, set_f1, set_f2, set_f3, set_f4, set_f5, set_f6, set_f7,
                 set_f22, set_f23, set_f24, set_f25, set_f26, set_f27, set_f28,
                 set_f29, set_f30, set_f31, set_f32, set_f33, set_f34, set_f35,
                 set_f36, set_f37, set_f38, set_f39, set_f40, set_f41, set_f42,
-                set_f43, set_f44, set_f45, set_f46, set_f47, set_f48, set_f49, 
+                set_f43, set_f44, set_f45, set_f46, set_f47, set_f48, set_f49,
                 set_f50, set_f51, set_f52, set_f53]
 
 #############################################################################
@@ -610,32 +610,32 @@ def set_features(e_data):
     """
     global num_features
     global model_features
-    
+
     edge_feats = []
     for ind in model_features:
         try:
             edge_feats.append(get_feat_ind[ind](e_data))
-        except KeyError:            
+        except KeyError:
             feat_amounts[ind] += 1
             set_feat_ind[ind](e_data, num_features)
             edge_feats.append(num_features)
             num_features += 1
 
     return edge_feats
-    
+
 
 def get_feature_list(sentence, p_ind, c_ind):
-    """ Get all feature indices lit by specific edge in sentence. 
-        This is used to choose indices in weight vector to sum on and 
-        receive edge score. 
+    """ Get all feature indices lit by specific edge in sentence.
+        This is used to choose indices in weight vector to sum on and
+        receive edge score.
     """
     global model_features
-    
+
     try:
         e_data = sentence.edge_data[p_ind][c_ind]
     except KeyError:
         e_data = EdgeData(sentence, p_ind, c_ind)
-    model_features = range(1, num_feat_types + 1)    
+    model_features = range(1, num_feat_types + 1)
 
     feat_inds = []
     for i in model_features:
@@ -644,7 +644,7 @@ def get_feature_list(sentence, p_ind, c_ind):
         except KeyError:
             # Feature never seen in corpus
             pass
-    
+
     return feat_inds
 
 
