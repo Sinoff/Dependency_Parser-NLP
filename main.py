@@ -131,8 +131,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--onetree', '-o', action='store_true', help='Set this' 
                         ' flag to use one full graph instead of choosing the best of many')
-    
-    
+
     args = parser.parse_args()
 
     # Argument Validation #

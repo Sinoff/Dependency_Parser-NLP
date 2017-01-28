@@ -1,17 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jan 17 22:30:07 2017
-
-@author: okrupnik
-"""
-
 import pickle
 import os
 from classes import EdgeData
 
 """
 FEATURES module: 
-extracts fetaures from words, parse corpus, save feature tables
+extracts features from words, parse corpus, save feature tables
 """
 
 num_feat_types = 53
@@ -104,7 +97,7 @@ get_feat_ind = [
 feat_amounts = dict(zip(range(1,num_feat_types + 1), [0]*num_feat_types))
 
 
-### The following functions set a feature index to a feature by type
+# The following functions set a feature index to a feature by type
 def set_f0(e, n):
     pass
 

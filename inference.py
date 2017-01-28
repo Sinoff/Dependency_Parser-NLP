@@ -37,7 +37,7 @@ def inference(sentence, weights, one_tree):
                     weights_graph[p][c] = -sum(weights[get_feature_list(sentence, p, c)])
         
         # add root node
-        weights_graph[0] = {w : -sum(weights[get_feature_list(sentence, w, c)])}
+        weights_graph[0] = {w: -sum(weights[get_feature_list(sentence, w, c)])}
 
         # Enables using the vanilla algorithm with all edges from root
         if one_tree:     

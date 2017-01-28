@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jan 18 20:52:35 2017
-
-@author: okrupnik
-"""
-
-
 class EdgeData(object):
     """ EdgeData class holds all data relating to an edge, to enable easy
         feature extraction. 
@@ -45,7 +37,6 @@ class EdgeData(object):
             self.c_next_pos = None
         
 
-
 class Sentence(object):
     """ Sentence class - holds all data relating to parsed sentence
     """
@@ -72,8 +63,7 @@ class Sentence(object):
         # This holds all indeices of features active in the sentence, and how
         # many times they appear
         self.feat_inds = {}
-        
-        
+
     def add_edge(self, p_ind, c_ind):
         """ Add an edge in all its representation forms (including data)
         """
@@ -83,8 +73,7 @@ class Sentence(object):
             self.edge_data[p_ind][c_ind] = EdgeData(self, p_ind, c_ind)
         else:
             self.edge_data[p_ind] = {c_ind : EdgeData(self, p_ind, c_ind)}
-        
-        
+
     def __repr__(self):
         """ Print sentence in the shape of a sentence block (good for creating
             output file)
@@ -96,8 +85,7 @@ class Sentence(object):
         text = '\n'.join(['\t'.join([str(obj) for obj in 
                           line]) for line in data])
         return text
-        
-        
+
     def __str__(self):
         # Easy debug representation of sentence
         return ' '.join([word + '_' + pos for word, pos in 
