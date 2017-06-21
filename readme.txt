@@ -5,6 +5,9 @@ You can find more information regarding dependency parsing here:
 1. http://www.cs.columbia.edu/~mcollins/6864/slides/glm3.4up.pdf
 2. http://faculty.cse.tamu.edu/huangrh/Spring17/l12_Parsing-Dependency_2.pdf
 
+Enjoy!
+Roi Sinoff & Orr Krupnik, Jan 2017
+
 ***************************************************************************************************
 How to run:
 Run main.py - the input arguments (mandatory and not-mandatory) are listed in the main file itself.
