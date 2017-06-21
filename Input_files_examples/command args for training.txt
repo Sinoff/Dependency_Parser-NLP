@@ -1,0 +1,10 @@
+.....\Data\train.labeled
+--i_file
+.....\Data\test.labeled
+--c_file
+.....\Data\comp.unlabeled
+--l_iterations
+100
+--m_file
+.....\Input_files_examples\features_input.txt
+--onetree

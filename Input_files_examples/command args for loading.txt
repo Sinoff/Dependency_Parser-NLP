@@ -1,0 +1,13 @@
+.....\Results\Final Results\Basic_results\20_Iterations
+--learn
+False
+.....\Data\train.labeled
+--i_file
+.....\Data\test.labeled
+--c_file
+.....\Data\comp.unlabeled
+--l_iterations
+50
+--m_file
+.....\Input_files_examples\features_basic.txt
+--onetree
